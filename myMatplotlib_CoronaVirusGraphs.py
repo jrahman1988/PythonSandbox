@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import datetime
 
+#This is for how many data will be read
 dataSize = 9
 
 desired_width=360
