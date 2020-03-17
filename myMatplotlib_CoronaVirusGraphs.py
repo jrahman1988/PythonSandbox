@@ -23,7 +23,7 @@ today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 #Read the coronoa_virus.csv from the file system and transform into a DataFrame using read_csv() method
 cv = pd.read_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/corona_virus.csv")
 cv = cv.iloc[:-1] #<-- Here we drop the last row of the dataframe (last row holds the total of all rows)
-cv = cv[cv.Country != 'Diamond Princess'] #<-Here we drop a row where the 'Country' column contains a value 'Diamond Princess'-
+cv = cv[cv.Country != 'Diamond Princess'] #<-Here we drop a row where the 'Country' column contains a value 'Diamond Princess'
 
 #Sorting the data based on a single column in a file and output using sort_values() method (descending order - ascending=False)
 cv_TotalCases = cv.sort_values('Total cases', ascending=False)
@@ -46,7 +46,7 @@ y1 = x["Total cases"]
 print(x1)
 print(y1)
 plt.figure(1,figsize=(12,5))
-plt.title("Top 10 countries based on Total cases")
+plt.title('Top 10 countries based on Total cases - [Total countries effected as of today = {}]'.format(cv.shape[0]))
 plt.suptitle(today)
 plt.xlabel("Countries")
 plt.ylabel("Total cases")
