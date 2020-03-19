@@ -1,0 +1,170 @@
+Country,Total cases,New cases,Total deaths,New deaths,Total recovered,Active cases,Critical cases,Total cases per 1M pop.
+China,80894,13,3237,11,69614,8043,2622,56
+Italy,31506,,2503,,2941,26062,2060,521
+Iran,16169,,988,,5389,9792,,193
+Spain,11826,,533,,1028,10265,563,253
+Germany,9367,,26,,67,9274,2,112
+S. Korea,8413,93,84,3,1540,6789,59,164
+France,7730,,175,,602,6953,699,118
+USA,6524,113,116,7,106,6302,12,20
+Switzerland,2742,,27,,15,2700,,317
+UK,1950,,71,,65,1814,20,29
+Netherlands,1705,,43,,2,1660,45,100
+Norway,1476,5,4,1,1,1471,27,272
+Austria,1471,139,4,,9,1458,12,163
+Belgium,1243,,10,,14,1219,33,107
+Sweden,1196,,8,,1,1187,12,118
+Denmark,977,,4,,1,972,18,169
+Japan,882,4,29,,144,709,41,7
+Diamond Princess,712,,7,,456,249,14,
+Malaysia,673,,2,,49,622,10,21
+Canada,598,,8,,12,578,1,16
+Australia,565,110,6,1,43,516,1,22
+Czechia,464,30,,,3,461,2,43
+Portugal,448,,1,,3,444,18,44
+Qatar,442,,,,4,438,,153
+Israel,427,90,,,11,416,5,49
+Greece,387,,5,,14,368,11,37
+Brazil,349,3,2,1,2,345,18,2
+Finland,322,,,,10,312,2,58
+Ireland,292,,2,,5,285,6,59
+Slovenia,275,,1,,,274,4,132
+Singapore,266,,,,114,152,14,45
+Pakistan,254,7,,,2,252,,1
+Iceland,247,,,,5,242,1,724
+Poland,246,8,5,,1,240,3,6
+Romania,246,29,,,19,227,5,13
+Bahrain,241,,1,,88,152,3,142
+Estonia,225,,,,1,224,1,170
+Thailand,212,35,1,,41,170,1,3
+Luxembourg,203,63,2,1,,201,1,324
+Chile,201,,,,,201,3,11
+Egypt,196,,6,,26,164,,2
+Philippines,193,6,14,,4,175,1,2
+Indonesia,172,,7,,9,156,,0.6
+Saudi Arabia,171,,,,6,165,,5
+Hong Kong,168,,4,,81,83,4,22
+Iraq,154,,11,,41,102,,4
+India,148,5,3,,14,131,,0.1
+Kuwait,142,12,,,12,130,4,33
+Lebanon,124,,4,,4,116,3,18
+San Marino,119,,11,,4,104,11,3507
+Peru,117,,,,1,116,8,4
+South Africa,116,31,,,,116,,2
+Russia,114,,,,8,106,,0.8
+UAE,113,,,,26,87,2,11
+Ecuador,111,,2,,,109,2,6
+Taiwan,100,23,1,,20,79,,4
+Turkey,98,,1,,,97,,1
+Slovakia,97,,,,,97,2,18
+Mexico,93,11,,,4,89,1,0.7
+Panama,86,17,1,,,85,7,20
+Armenia,84,6,,,1,83,2,28
+Serbia,83,11,,,1,82,4,9
+Bulgaria,81,,2,,,79,,12
+Croatia,81,12,,,5,76,,20
+Argentina,79,,2,,3,74,1,2
+Colombia,75,10,,,1,74,,1
+Latvia,71,11,,,1,70,,38
+Vietnam,68,2,,,16,52,,0.7
+Algeria,67,6,5,,10,52,,2
+Hungary,58,8,1,,2,55,,6
+Faeroe Islands,58,11,,,1,57,,1187
+Brunei,56,,,,,56,2,128
+Albania,55,,2,1,,53,2,19
+Costa Rica,50,,,,,50,3,10
+Uruguay,50,,,,,50,,14
+Cyprus,49,,,,,49,1,41
+Jordan,48,,,,1,47,,5
+Sri Lanka,45,1,,,3,42,,2
+Morocco,44,,2,,1,41,1,1
+Palestine,44,,,,,44,,9
+Andorra,39,,,,1,38,,505
+Georgia,38,4,,,1,37,1,10
+Malta,38,,,,2,36,,86
+Belarus,36,,,,3,33,,4
+Cambodia,35,2,,,1,34,,2
+Kazakhstan,35,2,,,,35,,2
+Azerbaijan,34,,1,,6,27,,3
+Bosnia and Herzegovina,34,,,,2,32,,10
+Oman,33,,,,12,21,,6
+Venezuela,33,,,,,33,,1
+North Macedonia,31,,,,1,30,1,15
+Moldova,30,,1,1,1,28,1,7
+Senegal,27,,,,2,25,,2
+Tunisia,27,,,,1,26,2,2
+Guadeloupe,27,9,,,,27,,67
+Lithuania,26,,,,1,25,1,10
+Afghanistan,22,,,,1,21,,0.6
+Dominican Republic,21,,1,,,20,,2
+New Zealand,20,,,,,20,,4
+Martinique,19,4,1,,,18,,51
+Liechtenstein,19,,,,,19,,498
+Burkina Faso,15,,,,,15,,0.7
+Ukraine,14,,2,,,12,,0.3
+Macao,14,1,,,10,4,,22
+Jamaica,13,,,,2,11,,4
+Maldives,13,,,,,13,,24
+Uzbekistan,13,2,,,,13,,0.4
+Bolivia,12,,,,,12,,1
+Réunion,12,3,,,,12,,13
+Guyana,11,4,1,,,10,,14
+Bangladesh,11,1,,,3,8,,0.07
+French Guiana,11,,,,,11,,37
+Cameroon,10,,,,,10,,0.4
+Monaco,9,,,,,9,,229
+Honduras,9,1,,,,9,,0.9
+Paraguay,9,,,,,9,1,1
+Guatemala,8,,1,,,7,,0.4
+Rwanda,8,1,,,,8,,0.6
+Cuba,7,,,,,7,,0.6
+Ghana,7,,,,,7,,0.2
+Trinidad and Tobago,7,2,,,,7,,5
+Channel Islands,6,,,,,6,,35
+Ivory Coast,6,2,,,1,5,,0.2
+Ethiopia,6,,,,,6,,0.05
+Mongolia,6,1,,,,6,,2
+Guam,5,,,,,5,,30
+Puerto Rico,5,,,,,5,,2
+Aruba,4,1,,,,4,,37
+DRC,4,1,,,,4,,0.04
+Kenya,4,,,,,4,,0.07
+Seychelles,4,,,,,4,,41
+Nigeria,3,,,,1,2,,0.01
+Curaçao,3,,,,,3,,18
+French Polynesia,3,,,,,3,,11
+Gabon,3,,,,,3,,1
+Gibraltar,3,,,,2,1,,89
+Kyrgyzstan,3,3,,,,3,,0.5
+Mayotte,3,,,,,3,,11
+St. Barth,3,,,,,3,,304
+Saint Martin,3,1,,,,3,,78
+Tanzania,3,2,,,,3,,0.05
+Barbados,2,,,,,2,,7
+Liberia,2,,,,,2,,0.4
+Montenegro,2,,,,,2,,3
+Namibia,2,,,,,2,,0.8
+Saint Lucia,2,,,,,2,,11
+U.S. Virgin Islands,2,,,,,2,,19
+Cayman Islands,1,,1,,,0,,15
+Sudan,1,,1,,,0,,0.02
+Nepal,1,,,,1,0,,0.03
+Antigua and Barbuda,1,,,,,1,,10
+Bahamas,1,,,,,1,,3
+Benin,1,,,,,1,,0.08
+Bhutan,1,,,,,1,,1
+CAR,1,,,,,1,,0.2
+Congo,1,,,,,1,,0.2
+Equatorial Guinea,1,,,,,1,,0.7
+Gambia,1,,,,,1,,0.4
+Greenland,1,,,,,1,,18
+Guinea,1,,,,,1,,0.08
+Vatican City,1,,,,,1,,1248
+Mauritania,1,,,,,1,,0.2
+Montserrat,1,1,,,,1,,200
+St. Vincent Grenadines,1,,,,,1,,9
+Somalia,1,,,,,1,,0.06
+Suriname,1,,,,,1,,2
+Eswatini,1,,,,,1,,0.9
+Togo,1,,,,,1,,0.1
+Total:,199194,973,7994,27,82783,108417,6417,25.6
