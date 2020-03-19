@@ -24,7 +24,7 @@ todayDate = dt.strftime("%A, %d %B %Y")
 def plotGraph(dfname, rowname, colname, fignum, graphcolor, titlestr):
     x1 = dfname[rowname]
     y1 = dfname[colname]
-    plt.figure(fignum, figsize=(14, 6))
+    plt.figure(fignum, figsize=(16, 6))
     plt.title(titlestr + r"$\bf{" + colname + "}$" + ' - [Total countries effected as of today = {}]'.format(cv.shape[0]))
     plt.suptitle(today)
     plt.xlabel("Countries")
@@ -89,14 +89,14 @@ graphColor = "limegreen"
 titlestring = "Top 10 countries based on "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
-#Graph of top 10 'Total cases per 1M pop.'
-x = cv_TotalCasesPerMillion.head(10)
-rowcategory = "Country"
-columncategory = "Total cases per 1M pop."
-figureNum = 3
-graphColor = "cornflowerblue"
-titlestring = "Top 10 countries based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+# #Graph of top 10 'Total cases per 1M pop.'
+# x = cv_TotalCasesPerMillion.head(10)
+# rowcategory = "Country"
+# columncategory = "Total cases per 1M pop."
+# figureNum = 3
+# graphColor = "cornflowerblue"
+# titlestring = "Top 10 countries based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
 #Graph of top 10 'Total deaths'
 x = cv_TotalDeaths.head(10)
@@ -107,23 +107,23 @@ graphColor = "dimgray"
 titlestring = "Top 10 countries based on "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
-#Graph of top 10 'New cases'
-x = cv_NewCases.head(10)
-rowcategory = "Country"
-columncategory = "New cases"
-figureNum = 5
-graphColor = "lightcoral"
-titlestring = "Top 10 countries based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top 10 'New deaths'
-x = cv_NewDeaths.head(10)
-rowcategory = "Country"
-columncategory = "New deaths"
-figureNum = 6
-graphColor = "dimgrey"
-titlestring = "Top 10 countries based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+# #Graph of top 10 'New cases'
+# x = cv_NewCases.head(10)
+# rowcategory = "Country"
+# columncategory = "New cases"
+# figureNum = 5
+# graphColor = "lightcoral"
+# titlestring = "Top 10 countries based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top 10 'New deaths'
+# x = cv_NewDeaths.head(10)
+# rowcategory = "Country"
+# columncategory = "New deaths"
+# figureNum = 6
+# graphColor = "dimgrey"
+# titlestring = "Top 10 countries based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
 
 #----SAARC DATA----#
@@ -137,43 +137,46 @@ cv1 = cv1.loc[(cv1["Country"] == 'Bangladesh')|
               (cv1["Country"] == 'Pakistan')|
               (cv1["Country"] == 'Sri Lanka')]
 
-# #Plot the pie chart for SAARC countries ('Total cases')
-# #Extract country specific sub-df
-# cv1_Bangladesh = cv1.loc[(cv1["Country"] == 'Bangladesh')]
-# cv1_Bhutan = cv1.loc[(cv1["Country"] == 'Bhutan')]
-# cv1_India = cv1.loc[(cv1["Country"] == 'India')]
-# cv1_Malvives = cv1.loc[(cv1["Country"] == 'Maldives')]
-# cv1_Nepal = cv1.loc[(cv1["Country"] == 'Nepal')]
-# cv1_Pakistan = cv1.loc[(cv1["Country"] == 'Pakistan')]
-# cv1_SriLanka = cv1.loc[(cv1["Country"] == 'Sri Lanka')]
-#
-# #Now extract country specific 'Total cases'
-# tc_Bangladesh = cv1_Bangladesh['Total cases']
-# tc_Bhutan = cv1_Bhutan['Total cases']
-# tc_India = cv1_India['Total cases']
-# tc_Maldives = cv1_Malvives['Total cases']
-# tc_Nepal = cv1_Nepal['Total cases']
-# tc_Pakistan = cv1_Pakistan['Total cases']
-# tc_SriLanka = cv1_SriLanka['Total cases']
-#
-# print(tc_Bangladesh)
-# print(tc_Bhutan)
-# print(tc_India)
-# print(tc_Maldives)
-# print(tc_Nepal)
-# print(tc_Pakistan)
-# print(tc_SriLanka)
-#
-# # Pie chart plotting
-# labels = 'Bangladesh', 'Bhutan', 'India', 'Maldives', 'Nepal', 'Pakistan', 'Sri Lanka'
-# sizes = [tc_Bangladesh, tc_Bhutan, tc_India, tc_Maldives, tc_Nepal, tc_Pakistan, tc_SriLanka]
-# explode = (0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-#
-# fig2, ax2 = plt.subplots()
-# ax2.pie(sizes, explode=explode, labels=labels, autopct='%.0f%%', shadow=True, startangle=90)
-# ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+#Plot the pie chart for SAARC countries ('Total cases')
+#Extract country specific sub-df
+cv1_Bangladesh = cv1.loc[(cv1["Country"] == 'Bangladesh')]
+cv1_Bhutan = cv1.loc[(cv1["Country"] == 'Bhutan')]
+cv1_India = cv1.loc[(cv1["Country"] == 'India')]
+cv1_Malvives = cv1.loc[(cv1["Country"] == 'Maldives')]
+cv1_Nepal = cv1.loc[(cv1["Country"] == 'Nepal')]
+cv1_Pakistan = cv1.loc[(cv1["Country"] == 'Pakistan')]
+cv1_SriLanka = cv1.loc[(cv1["Country"] == 'Sri Lanka')]
+
+#Now extract country specific 'Total cases'
+tc_Bangladesh = cv1_Bangladesh['Total cases']
+tc_Bhutan = cv1_Bhutan['Total cases']
+tc_India = cv1_India['Total cases']
+tc_Maldives = cv1_Malvives['Total cases']
+tc_Nepal = cv1_Nepal['Total cases']
+tc_Pakistan = cv1_Pakistan['Total cases']
+tc_SriLanka = cv1_SriLanka['Total cases']
+
+tc_Bangladesh=tc_Bangladesh.to_string(index=False)
+tc_Bhutan=tc_Bhutan.to_string(index=False)
+tc_India=tc_India.to_string(index=False)
+tc_Maldives=tc_Maldives.to_string(index=False)
+tc_Nepal=tc_Nepal.to_string(index=False)
+tc_Pakistan=tc_Pakistan.to_string(index=False)
+tc_SriLanka=tc_SriLanka.to_string(index=False)
+
+totalSAARCCases = int(tc_Bangladesh)+int(tc_Bhutan)+int(tc_India)+int(tc_Maldives)+int(tc_Nepal)+int(tc_Pakistan)+int(tc_SriLanka)
+
+# Pie chart plotting
+labels = 'Bangladesh',  'India', 'Maldives', 'Nepal', 'Pakistan', 'Bhutan', 'Sri Lanka'
+sizes = [tc_Bangladesh,  tc_India, tc_Maldives, tc_Nepal, tc_Pakistan, tc_Bhutan, tc_SriLanka]
+explode = (0.2, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0)
+
+fig2, ax2 = plt.subplots()
+ax2.pie(sizes, explode=explode, labels=labels, autopct='%1.f%%', shadow=False, startangle=45)
+ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 # ax2.set(aspect="equal", title='SAARC Picture')
-# plt.show()
+ax2.set(aspect="equal", title='Total SAARC Cases as of {} = {}'.format(todayDate, totalSAARCCases))
+plt.show()
 
 #Sorting the data based on a single column in a file and output using sort_values() method (descending order - ascending=False)
 cv1_TotalCases = cv1.sort_values('Total cases', ascending=False)
@@ -201,14 +204,14 @@ graphColor = "lime"
 titlestring = "SAARC countries compare based on "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
-#Graph of top SAARC 'Total cases per 1M pop.'
-x = cv1_TotalCasesPerMillion.head(7)
-rowcategory = "Country"
-columncategory = "Total cases per 1M pop."
-figureNum = 9
-graphColor = "aqua"
-titlestring = "SAARC countries compare based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+# #Graph of top SAARC 'Total cases per 1M pop.'
+# x = cv1_TotalCasesPerMillion.head(7)
+# rowcategory = "Country"
+# columncategory = "Total cases per 1M pop."
+# figureNum = 9
+# graphColor = "aqua"
+# titlestring = "SAARC countries compare based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
 #Graph of top SAARC 'Total deaths'
 x = cv1_TotalDeaths.head(7)
@@ -219,20 +222,20 @@ graphColor = "black"
 titlestring = "SAARC countries compare based on "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
-#Graph of top SAARC 'New cases'
-x = cv1_NewCases.head(7)
-rowcategory = "Country"
-columncategory = "New cases"
-figureNum = 11
-graphColor = "orangered"
-titlestring = "SAARC countries compare based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top SAARC 'New deaths'
-x = cv1_NewDeaths.head(7)
-rowcategory = "Country"
-columncategory = "New deaths"
-figureNum = 12
-graphColor = "gray"
-titlestring = "SAARC countries compare based on "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+# #Graph of top SAARC 'New cases'
+# x = cv1_NewCases.head(7)
+# rowcategory = "Country"
+# columncategory = "New cases"
+# figureNum = 11
+# graphColor = "orangered"
+# titlestring = "SAARC countries compare based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top SAARC 'New deaths'
+# x = cv1_NewDeaths.head(7)
+# rowcategory = "Country"
+# columncategory = "New deaths"
+# figureNum = 12
+# graphColor = "gray"
+# titlestring = "SAARC countries compare based on "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
