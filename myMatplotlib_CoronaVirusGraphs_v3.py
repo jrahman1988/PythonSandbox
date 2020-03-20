@@ -34,7 +34,7 @@ def plotGraph(dfname, rowname, colname, fignum, graphcolor, titlestr):
     plt.suptitle(today)
     plt.xlabel("Countries")
     plt.ylabel(colname)
-    plt.xticks(rotation=15)
+    plt.xticks(rotation=18)
     barplot = plt.bar(x1, y1, color=graphcolor)
     plt.grid(True)
     for bar in barplot:
@@ -112,24 +112,24 @@ figureNum = 4
 graphColor = "dimgray"
 titlestring = "Top {} countries based on: ".format(topCountryNum)
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top 'New cases'
-x = cv_NewCases.head(topCountryNum)
-rowcategory = "Country"
-columncategory = "New cases"
-figureNum = 5
-graphColor = "lightcoral"
-titlestring = "Top {} countries based on: ".format(topCountryNum)
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top 'New deaths'
-x = cv_NewDeaths.head(topCountryNum)
-rowcategory = "Country"
-columncategory = "New deaths"
-figureNum = 6
-graphColor = "dimgrey"
-titlestring = "Top {} countries based on: ".format(topCountryNum)
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top 'New cases'
+# x = cv_NewCases.head(topCountryNum)
+# rowcategory = "Country"
+# columncategory = "New cases"
+# figureNum = 5
+# graphColor = "lightcoral"
+# titlestring = "Top {} countries based on: ".format(topCountryNum)
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top 'New deaths'
+# x = cv_NewDeaths.head(topCountryNum)
+# rowcategory = "Country"
+# columncategory = "New deaths"
+# figureNum = 6
+# graphColor = "dimgrey"
+# titlestring = "Top {} countries based on: ".format(topCountryNum)
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
 
 #----SAARC DATA----#
@@ -227,21 +227,21 @@ figureNum = 10
 graphColor = "black"
 titlestring = "SAARC countries compare based on: "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top SAARC 'New cases'
-x = cv1_NewCases.head(7)
-rowcategory = "Country"
-columncategory = "New cases"
-figureNum = 11
-graphColor = "orangered"
-titlestring = "SAARC countries reported: "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top SAARC 'New deaths'
-x = cv1_NewDeaths.head(7)
-rowcategory = "Country"
-columncategory = "New deaths"
-figureNum = 12
-graphColor = "gray"
-titlestring = "SAARC countries reported: "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top SAARC 'New cases'
+# x = cv1_NewCases.head(7)
+# rowcategory = "Country"
+# columncategory = "New cases"
+# figureNum = 11
+# graphColor = "orangered"
+# titlestring = "SAARC countries reported: "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
+#
+# #Graph of top SAARC 'New deaths'
+# x = cv1_NewDeaths.head(7)
+# rowcategory = "Country"
+# columncategory = "New deaths"
+# figureNum = 12
+# graphColor = "gray"
+# titlestring = "SAARC countries reported: "
+# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
