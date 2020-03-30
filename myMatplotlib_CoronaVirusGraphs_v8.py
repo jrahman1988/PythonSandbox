@@ -23,6 +23,7 @@ pd.set_option('display.max_columns',120)
 dt = datetime.datetime.now()
 today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
+fileNameDate = dt.strftime("%b%d%Y")
 
 #METHOD to plot the bar graphs
 def plotGraph(dfname, rowname, colname, fignum, graphcolor, titlestr):
@@ -75,8 +76,8 @@ cv["Gross Total cases"] = cv["Total cases"] + cv["New cases"]
 #Summing up 'Total deaths' + 'New deaths' and create a new column named: 'Gross Total deaths'
 cv["Gross Total deaths"] = cv["Total deaths"] + cv["New deaths"]
 
-#Write the DF to today.csv by excluding the DF index
-cv.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/today.csv", index = False)
+#Write the DF to corona_virus.csv by excluding the DF index and appending with today's date with file name
+cv.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/corona_virus-{}.csv".format(fileNameDate), index = False)
 ##--ENDS: Data read, write and preparation---------------------------##
 
 
