@@ -12,6 +12,7 @@ cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK
 countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
                     "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand"]
 
+
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
 endDate = dt.strftime("%Y"+"-"+"%m"+"-"+"%d")
@@ -46,5 +47,3 @@ for j in cc:
     plt.suptitle(today)
     plt.show()
     k += 1
-
-
