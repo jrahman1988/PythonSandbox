@@ -8,8 +8,9 @@ import datetime
 from matplotlib import pyplot as plt
 
 #List of the countries to be ploted
-cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT"]
-countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India", "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan"]
+cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT", "MV", "NZ"]
+countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
+                    "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()

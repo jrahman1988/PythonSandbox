@@ -14,6 +14,7 @@ today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 #GET the response from the web page using requests library
 req = requests.get("https://www.eia.gov/opendata/qb.php?category=2134732&sdid=INTL.36-12-BGD-BKWH.A")
 df = pd.read_html(req.content)[0]
+print(df.info())
 #
 #Convert the generated values from billion to mega
 df['Value'] = df['Value'].multiply(1000)
@@ -21,9 +22,12 @@ df['Value'] = df['Value'].multiply(1000)
 #Modify the existing string 'billion kilowatthours' string to 'Million kWH' of 'Units' column
 #--here we take one column which is a seris, then apply the Series.str.replace(self, pat, repl, n=-1, case=None, flags=0, regex=True)--
 df['Units'] = df['Units'].str.replace('billion kilowatthours', 'Million kWH')
-
+#
 #Fill all NaN values with 0
 df = df.fillna(0)
+#
+#Drop the row for Period = 2018
+df = df.drop(df.index[0])
 #
 #Rename the columns
 df = df.rename(columns={'Period':'Year', 'Value': 'Generated amount in MkWh', 'Units': 'Million kWH'})
