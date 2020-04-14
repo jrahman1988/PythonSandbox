@@ -1,0 +1,131 @@
+'''
+Excercise from towardsdatascienece.com: on Random Forest in Python - A Practical End-to-End Machine Learning Example
+found at: https://towardsdatascience.com/random-forest-in-python-24d0893d51c0
+Steps in ML model creation (Numpy array approach):
+    State the question and determine required data
+    Acquire the data in an accessible format
+    Identify and correct missing data points/anomalies as required
+    Prepare the data for the machine learning model
+    Establish a baseline model that you aim to exceed
+    Train the model on the training data
+    Make predictions on the test data
+    Compare predictions to the known test set targets and calculate performance metrics
+    If performance is not satisfactory, adjust the model, acquire more data, or try a different modeling technique
+    Interpret model and report results visually and numerically
+'''
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+
+from matplotlib import pyplot as plt
+
+# Read in data and display first 5 rows
+features = pd.read_csv('~/Desktop/Learning/DataScience/ML Exercise/temps.csv')
+# print(features.head(5))
+# print(features.info())
+# print(features.describe())
+# print(features.shape)
+# print(features['actual'])
+
+
+#Data integrity check by data visualiztion
+x_day = features['day']
+
+y_Actual = features['actual']
+y_Average = features['average']
+y_Previousday = features['temp_1']
+y_Daybeforeyesterday = features['temp_2']
+
+# #Plot a bar graph from the data (names, runs)
+# plt.figure(figsize=(20, 5))
+# plt.title("Data Integrity Check")
+# plt.xlabel("Days")
+# plt.ylabel("Temperature")
+# plt.bar(x_day,y_Average, color="Green")
+# plt.grid(True)
+# plt.show()
+
+#Data cleaning and setup
+#
+#Repalce any NaN values to 0 in the dataset
+features = features.fillna(0)
+
+# One-hot encode the data using pandas get_dummies
+features = pd.get_dummies(features, dummy_na=False)
+
+# Display the first 5 rows of the last 12 columns print using pd.iloc[:,5:] where it will consider all rows, and columns starting at 5 to end
+# print(features.iloc[:,5:].head(5))
+# features.to_csv('~/Desktop/Learning/DataScience/ML Exercise/temps_after.csv')
+# print(features['actual'])
+''''''
+# Labels are the values we want to predict, which is 'y'
+labels = np.array(features['actual'])
+''''''
+# Remove the labels from the features axis 1 refers to the columns
+features= features.drop('actual', axis = 1)
+''''''
+# Saving feature names (minus 'actual') for later use, which si 'X'
+feature_list = list(features.columns)
+''''''
+# Convert to numpy array
+features = np.array(features)
+# print(labels)
+'''
+The following code splits the data sets with another single line:
+Using Skicit-learn to split data into training and testing sets
+We can also use df instead of numpy array, for more information refer to API doc: https://scikit-learn.org/stable/index.html
+'''
+# Split the data into training and testing sets
+train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size = 0.25, random_state = 42)
+
+#Sanity chack of the shape of the data
+# print('Training feature data (X-training) = ', train_features.shape)
+# print('Training labels data (y-training) = ',train_labels.shape)
+# print('Test feature data (X-test) = ',test_features.shape)
+# print('Test labels data (y-test) = ',test_labels.shape)
+print(feature_list.index('average'))
+'''
+ESTABLISH BASELINE:
+'''
+# The baseline predictions are the historical averages
+baseline_preds = test_features[:, feature_list.index('average')]
+# Baseline errors, and display average baseline error
+baseline_errors = abs(baseline_preds - test_labels)
+print(baseline_preds)
+print('Average baseline error: ', round(np.mean(baseline_errors), 2))
+# Average baseline error:  5.06 degrees.
+
+'''
+TRAIN MODEL:
+After all the work of data preparation, creating and training the model is pretty simple using Scikit-learn.
+We import the random forest regression model from skicit-learn, instantiate the model, and fit
+'''
+# Instantiate model with 1000 decision trees
+rf = RandomForestRegressor(n_estimators = 1000, random_state = 42)
+print(rf)
+
+# Train the model on training data
+rf.fit(train_features, train_labels);
+
+'''
+MAKE PREDICTION ON THE TEST DATA:
+Our model has now been trained to learn the relationships between the features and the targets.
+The next step is figuring out how good the model is! To do this we make predictions on the test features (the model is 
+never allowed to see the test answers). We then compare the predictions to the known answers. When performing 
+regression, we need to make sure to use the absolute error because we expect some of our answers to be low and some to 
+be high. We are interested in how far away our average prediction is from the actual value so we take the absolute value
+(as we also did when establishing the baseline).
+'''
+# Use the RF's predict method on the test data
+predictions = rf.predict(test_features)
+print(test_features)
+print(predictions)
+
+# Calculate the absolute errors
+errors = abs(predictions - test_labels)
+# print(errors)
+
+# Print out the mean absolute error (mae)
+# print('Mean Absolute Error: {}'.format(round(errors.mean(axis=0),2)))
+print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
