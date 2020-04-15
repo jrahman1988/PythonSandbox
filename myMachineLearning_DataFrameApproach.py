@@ -17,6 +17,8 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import export_graphviz
+import pydot
 from matplotlib import pyplot as plt
 
 # Read in data and display first 5 rows
@@ -65,8 +67,8 @@ features= features.drop(['actual'], axis = 1)
 # print(features)
 # features.to_csv('~/Desktop/Learning/DataScience/ML Exercise/temps_after.csv')
 # ''''''
-# # Saving feature names (minus 'actual') for later use, which si 'X'
-# feature_list = list(features.columns)
+# Saving feature names (minus 'actual') for later use, which is 'X'
+feature_list = list(features.columns)
 # ''''''
 # # Convert to numpy array
 # features = np.array(features)
@@ -96,7 +98,7 @@ baseline_preds = test_features['average']
 
 # Baseline errors, and display average baseline error
 baseline_errors = abs(baseline_preds - test_labels)
-# print(round(baseline_errors.mean(axis=0),2))
+print("The baseline average error (BAE): {} ".format(round(baseline_errors.mean(axis=0),2)))
 
 '''
 TRAIN MODEL:
@@ -121,13 +123,42 @@ be high. We are interested in how far away our average prediction is from the ac
 '''
 # Use the RF's predict method on the test data
 predictions = rf.predict(test_features)
-print(test_features)
-print(predictions)
+# print(test_features)
+# print(predictions)
 
 # Calculate the absolute errors
 errors = abs(predictions - test_labels)
 # print(errors)
 
 # Print out the mean absolute error (mae)
-print('Mean Absolute Error: {}'.format(round(errors.mean(axis=0),2)))
+print('Mean Absolute Error (MAE) : {}'.format(round(errors.mean(axis=0),2)))
 # print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
+
+'''
+DETERMINE PERFORMANCE METRICS:
+To put our predictions in perspective, we can calculate an accuracy using
+the mean average percentage error (MAPE) subtracted from 100 %
+'''
+# Calculate mean absolute percentage error (MAPE)
+mape = 100 * (errors / test_labels)
+accuracy = 100 - np.mean(mape)
+print('Accuracy of this model (100% - MAPE) :', round(accuracy, 2), '%.')
+
+'''
+INTERPRETATION OF 'RAIN FOREST' MODEL:
+The question is: how does this model arrive at the values? 
+'''
+#Visualizing a Single Decision Tree (the following code will create tree of 15 levels)
+# tree = rf.estimators_[5]
+# export_graphviz(tree, out_file = 'tree.dot', feature_names = feature_list, rounded = True, precision = 1)
+# (graph, ) = pydot.graph_from_dot_file('tree.dot')
+# graph.write_png('tree.png')
+
+#Rather create a small layered lree (3 layers)
+# Limit depth of tree to 3 levels
+rf_small = RandomForestRegressor(n_estimators=10, max_depth = 3)
+rf_small.fit(train_features, train_labels)# Extract the small tree
+tree_small = rf_small.estimators_[5]# Save the tree as a png image
+export_graphviz(tree_small, out_file = 'small_tree.dot', feature_names = feature_list, rounded = True, precision = 1)
+(graph, ) = pydot.graph_from_dot_file('small_tree.dot')
+graph.write_png('small_tree.png')

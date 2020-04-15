@@ -15,8 +15,11 @@ Steps in ML model creation (Numpy array approach):
 '''
 import pandas as pd
 import numpy as np
+import pydot as pydot
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import export_graphviz
+import pydot
 
 from matplotlib import pyplot as plt
 
@@ -65,7 +68,7 @@ labels = np.array(features['actual'])
 # Remove the labels from the features axis 1 refers to the columns
 features= features.drop('actual', axis = 1)
 ''''''
-# Saving feature names (minus 'actual') for later use, which si 'X'
+# Saving feature names (minus 'actual') for later use, which is 'X'
 feature_list = list(features.columns)
 ''''''
 # Convert to numpy array
@@ -84,7 +87,7 @@ train_features, test_features, train_labels, test_labels = train_test_split(feat
 # print('Training labels data (y-training) = ',train_labels.shape)
 # print('Test feature data (X-test) = ',test_features.shape)
 # print('Test labels data (y-test) = ',test_labels.shape)
-print(feature_list.index('average'))
+# print(feature_list.index('average'))
 '''
 ESTABLISH BASELINE:
 '''
@@ -92,9 +95,9 @@ ESTABLISH BASELINE:
 baseline_preds = test_features[:, feature_list.index('average')]
 # Baseline errors, and display average baseline error
 baseline_errors = abs(baseline_preds - test_labels)
-print(baseline_preds)
-print('Average baseline error: ', round(np.mean(baseline_errors), 2))
-# Average baseline error:  5.06 degrees.
+# print(baseline_preds)
+print("The baseline average error (BAE): ", round(np.mean(baseline_errors)))
+# print("The baseline average error (BAE): {} ".format(round(baseline_errors.mean(axis=0),2)))
 
 '''
 TRAIN MODEL:
@@ -103,7 +106,7 @@ We import the random forest regression model from skicit-learn, instantiate the 
 '''
 # Instantiate model with 1000 decision trees
 rf = RandomForestRegressor(n_estimators = 1000, random_state = 42)
-print(rf)
+# print(rf)
 
 # Train the model on training data
 rf.fit(train_features, train_labels);
@@ -119,8 +122,8 @@ be high. We are interested in how far away our average prediction is from the ac
 '''
 # Use the RF's predict method on the test data
 predictions = rf.predict(test_features)
-print(test_features)
-print(predictions)
+# print(test_features)
+# print(predictions)
 
 # Calculate the absolute errors
 errors = abs(predictions - test_labels)
@@ -129,3 +132,32 @@ errors = abs(predictions - test_labels)
 # Print out the mean absolute error (mae)
 # print('Mean Absolute Error: {}'.format(round(errors.mean(axis=0),2)))
 print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
+
+'''
+DETERMINE PERFORMANCE METRICS:
+To put our predictions in perspective, we can calculate an accuracy using
+the mean average percentage error (MAPE) subtracted from 100 %
+'''
+# Calculate mean absolute percentage error (MAPE)
+mape = 100 * (errors / test_labels)
+accuracy = 100 - np.mean(mape)
+print('Accuracy of this model (100% - MAPE) :', round(accuracy, 2), '%.')
+
+'''
+INTERPRETATION OF 'RAIN FOREST' MODEL:
+The question is: how does this model arrive at the values? 
+'''
+#Visualizing a Single Decision Tree (the following code will create tree of 15 levels)
+# tree = rf.estimators_[5]
+# export_graphviz(tree, out_file = 'tree.dot', feature_names = feature_list, rounded = True, precision = 1)
+# (graph, ) = pydot.graph_from_dot_file('tree.dot')
+# graph.write_png('tree.png')
+
+#Rather create a small layered lree (3 layers)
+# Limit depth of tree to 3 levels
+rf_small = RandomForestRegressor(n_estimators=10, max_depth = 3)
+rf_small.fit(train_features, train_labels)# Extract the small tree
+tree_small = rf_small.estimators_[5]# Save the tree as a png image
+export_graphviz(tree_small, out_file = 'small_tree.dot', feature_names = feature_list, rounded = True, precision = 1)
+(graph, ) = pydot.graph_from_dot_file('small_tree.dot')
+graph.write_png('small_tree.png')
