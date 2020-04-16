@@ -8,14 +8,17 @@ import datetime
 from matplotlib import pyplot as plt
 
 #List of the countries to be ploted
-cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT", "MV", "NZ", "AU", "SC"]
-countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
-                    "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand", "Australia", "Seychelles"]
+# cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT", "MV", "NZ", "AU", "SC", "IS", "FI", "NO", "DK", "TW"]
+# countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
+#                     "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand", "Australia", "Seychelles", "Iceland", "Finland", "Norway", "Denmark", "Taiwan"]
+
+cc:list = ["BD", "DK", "FI", "DE",  "IS", "NZ", "NO", "TW"]
+countryName:list = ["Bangladesh", "Denmark", "Finland", "Germany", "Iceland", "New Zealand", "Norway", "Taiwan"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
 endDate = dt.strftime("%Y"+"-"+"%m"+"-"+"%d")
-startDate="2020-01-01"
+startDate="2020-02-01"
 today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
 fileNameDate = dt.strftime("%b%d%Y")
