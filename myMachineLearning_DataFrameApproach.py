@@ -132,7 +132,6 @@ errors = abs(predictions - test_labels)
 
 # Print out the mean absolute error (mae)
 print('Mean Absolute Error (MAE) : {}'.format(round(errors.mean(axis=0),2)))
-# print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
 
 '''
 DETERMINE PERFORMANCE METRICS:
