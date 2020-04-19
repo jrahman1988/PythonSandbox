@@ -8,12 +8,12 @@ import datetime
 from matplotlib import pyplot as plt
 
 #List of the countries to be ploted
-# cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT", "MV", "NZ", "AU", "SC", "IS", "FI", "NO", "DK", "TW"]
-# countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
-#                     "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand", "Australia", "Seychelles", "Iceland", "Finland", "Norway", "Denmark", "Taiwan"]
+cc:list = ["US", "CA", "IT", "FR", "GB", "DE", "JP", "KR", "SG", "IN", "BD", "PK", "NP", "LK", "BT", "MV", "NZ", "AU", "SC", "IS", "FI", "NO", "DK", "TW"]
+countryName:list = ["USA", "Canada", "Italy", "France", "UK", "Germany", "Japan", "South Korea", "Singapore", "India",
+                    "Bangladesh", "Pakistan", "Nepal", "Sri Lanka", "Bhutan", "Maldives", "New Zealand", "Australia", "Seychelles", "Iceland", "Finland", "Norway", "Denmark", "Taiwan"]
 
-cc:list = ["BD", "DK", "FI", "DE",  "IS", "NZ", "NO", "TW"]
-countryName:list = ["Bangladesh", "Denmark", "Finland", "Germany", "Iceland", "New Zealand", "Norway", "Taiwan"]
+# cc:list = ["BD", "DK", "FI", "DE",  "IS", "NZ", "NO", "TW"]
+# countryName:list = ["Bangladesh", "Denmark", "Finland", "Germany", "Iceland", "New Zealand", "Norway", "Taiwan"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
@@ -23,7 +23,7 @@ today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
 fileNameDate = dt.strftime("%b%d%Y")
 
-#Web scrape the data for selected countries startDate = 2020-01-01 and endDate=today and save to country specific .csv files
+#Web scrape the data for selected countries startDate = 2020-02-01 and endDate=today and save to country specific .csv files
 for i in cc:
     url="http://api.coronatracker.com/v3/analytics/trend/country?countryCode={}&startDate={}&endDate={}".format(i, startDate, endDate)
     r = requests.get(url)
@@ -42,7 +42,7 @@ for j in cc:
     ax= cv.plot(kind='line', figsize=(10,5), x='last_updated', y='total_confirmed', grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
     ax= cv.plot(kind='line', figsize=(10,5), x='last_updated', y='total_deaths', grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
     ax= cv.plot(kind='line', figsize=(10,5), x='last_updated', y='total_recovered', grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
-    ax.set_xlabel("Trend from January 01, 2020 until today")
+    ax.set_xlabel("Trend from February 01, 2020 until today")
     ax.set_ylabel("Number of cases")
     plt.suptitle(today)
     ax.legend(['Total Cases {}'.format(tc), 'Total Deaths {}'.format(td), 'Total Recovers {}'.format(tr)], fancybox=True, framealpha=1, shadow=True, borderpad=1)
