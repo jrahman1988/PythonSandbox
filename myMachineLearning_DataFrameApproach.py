@@ -83,10 +83,10 @@ We can also use df instead of numpy array, for more information refer to API doc
 train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size = 0.25, random_state = 42)
 #
 #Sanity check of the shape of the data
-# print('Training feature data (X-training) = ', train_features.shape)
-# print('Training labels data (y-training) = ',train_labels.shape)
-# print('Test feature data (X-test) = ',test_features.shape)
-# print('Test labels data (y-test) = ',test_labels.shape)
+print('Training feature data (X-training) shape = ', train_features.shape)
+print('Training labels data (y-training) shape = ',train_labels.shape)
+print('Test feature data (X-test) shape = ',test_features.shape)
+print('Test labels data (y-test) shape = ',test_labels.shape)
 # print(test_features.info())
 
 '''
@@ -94,7 +94,8 @@ ESTABLISH BASELINE:
 '''
 # The baseline predictions are the historical averages
 baseline_preds = test_features['average']
-# print(baseline_preds)
+print('Baseline prediction shape = ', baseline_preds.shape)
+# print('Baseline Prediction :', baseline_preds)
 
 # Baseline errors, and display average baseline error
 baseline_errors = abs(baseline_preds - test_labels)
