@@ -19,3 +19,7 @@ print("\n",df1.head(10))
 #Extract selective range of rows and selective range of columns using iloc()
 df2 = df.iloc[0:100, 4:7]
 print("\n",df2.head(50))
+
+
+print(df.tail())
+print("\n The 5th row from last is here : ", df.iloc[-5])

@@ -12,5 +12,9 @@ d_dummy = pd.get_dummies(d, dummy_na=False)
 print(d_dummy)
 
 d = pd.Series(list({'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'}))
-d_dummy = pd.get_dummies(d, dummy_na=True)
+d_dummy = pd.get_dummies(d, dummy_na=False)
+print(d_dummy)
+
+d = pd.Series(list({'True', 'True', 'False', 'False', 'False', 'True', 'False'}))
+d_dummy = pd.get_dummies(d, dummy_na=False)
 print(d_dummy)

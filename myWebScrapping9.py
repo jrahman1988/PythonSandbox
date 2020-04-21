@@ -8,8 +8,8 @@ import datetime
 from matplotlib import pyplot as plt
 
 #List of the countries to be ploted
-cc:list = ["BD", "IN", "PK", "NP",  "LK", "US", "CA", "GB"]
-countryName:list = ["Bangladesh", "India", "Pakistan", "Nepal", "Sri Lanka", "USA", "Canada", "UK"]
+cc:list = ["BD", "IN", "PK", "LK", "CA", "US", "IT", "ES",  "FR", "GB"]
+countryName:list = ["Bangladesh", "India", "Pakistan", "Sri Lanka", "Canada", "USA", "Italy", "Spain", "France", "UK"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
@@ -43,6 +43,6 @@ for j in cc:
     ax.set_xlabel("Trend from April 01, 2020 until today")
     ax.set_ylabel("Number of cases")
     plt.suptitle(today)
-    ax.legend(['Total Cases {}'.format(tc), 'Total Deaths {0} [{1}% of total cases]'.format(td, death_rate), 'Total Recovers [{1}% of total cases]'.format(tr, recovery_rate)], fancybox=True, framealpha=1, shadow=True, borderpad=1)
+    ax.legend(['Total Cases {}'.format(tc), 'Total Deaths {0} [{1}% of total cases]'.format(td, death_rate), 'Total Recovers {0} [{1}% of total cases]'.format(tr, recovery_rate)], fancybox=True, framealpha=1, shadow=True, borderpad=1)
     plt.show()
     k += 1
