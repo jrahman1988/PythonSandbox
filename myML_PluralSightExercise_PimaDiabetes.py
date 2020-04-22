@@ -41,11 +41,68 @@ LOADING DATA:
 (pima-data.csv, which was downloaded form Jerry's GitHub repo and now saved at: ~/Desktop/Learning/Sandbox/MLSandbox
 '''
 df = pd.read_csv(datatobeloaded)
-print(df.head(5))
-print(df.tail(5))
-print(df.info())
-print(df.describe())
-print(df.shape)
+# print(df.head(5))
+# print(df.tail(5))
+# print(df.info())
+# print(df.describe())
+# print(df.shape)
+
+'''
+CHECK DATA:
+If there is any null values in the data
+'''
+print("Is there any null value in the data :", df.isnull().values.any())
+
+'''
+DATA PREP 1: CLEAN UP DATA BY CORRELATION CHECK BETWEEN COLUMNS:
+1. By plotting correlation map of matplotlib library (we have to use the debugger mode to see the corr df)
+2. Remove the 'skin' column because it has 1 to 1 correlation with 'thickness'
+'''
+corr = df.corr()
+# print(corr)
+del df['skin']
+# print(df.info())
+# corr = df.corr()
+# print(corr)
+
+'''
+DATA PREP 2: CLEAN UP DATA BY MOLDING DATA:
+1. We have categorical data under 'diabetes' column and those are 'True' and 'False', change them to '1' and '0'
+2. Use map() method of Pandas to convert 'True' to 1 and 'False' to 0 under 'diabetes' column
+'''
+# print(df.head())
+diabetes_map = {True: 1, False: 0}
+df['diabetes'] = df['diabetes'].map(diabetes_map)
+# print(df.head())
+
+'''
+DATA PREP 3: CHECK THE TARGET COLUMN WHETHER IT HAS SUFFICIENT DISTRIBUTION OF TRUE/FALSE
+1. Find the number of 'True' and 'False' under 'diabetes' column
+'''
+num_true = len(df.loc[df['diabetes'] == True])
+num_false = len(df.loc[df['diabetes'] == False])
+percent_numTrue:float = round((num_true/(num_true+num_false)) *100, 2)
+percent_numFalse:float = round((num_false/(num_true+num_false)) *100, 2)
+# print("Number of True cases: {0} - % of True = {1}".format(num_true, percent_numTrue))
+# print("Number of False cases: {0} - % of False = {1}".format(num_false, percent_numFalse))
+
+'''
+TRAINING - DATA SPLITTING:
+1. Using scikit-learn library split prepared data into 70% Training set and 30% Testing set
+2. Define the feature set using all column names and predicted name using the diabetes column
+'''
+feature_col_names = {'num_preg', 'glucose_conc', 'diastolic_bp', 'thickness', 'insulin', 'bmi', 'diab_pred', 'age'}
+predicted_class_name = {'diabetes'}
+
+X = df[feature_col_names].values
+y = df[predicted_class_name].values
+split_test_size = 0.30
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=split_test_size, random_state=42)
+print("% of training set {}".format(round(float((len(X_train)/len(df.index))*100),2)))
+print("% of test set {}".format(round(float((len(X_test)/len(df.index))*100),2)))
+
+#---> ekhan theke
 
 # # #Data integrity check by data visualiztion
 # # x_day = features['day']
