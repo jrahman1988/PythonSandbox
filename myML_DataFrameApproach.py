@@ -70,8 +70,8 @@ features= features.drop(['actual'], axis = 1)
 # Saving feature names (minus 'actual') for later use, which is 'X'
 feature_list = list(features.columns)
 # ''''''
-# # Convert to numpy array
-# features = np.array(features)
+# Convert to numpy array
+features = np.array(features)
 # # print(labels)
 '''
 TRAINING & TESTING SETS
