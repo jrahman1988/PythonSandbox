@@ -10,8 +10,8 @@ from matplotlib import pyplot as plt
 # cc:list = ["KW", "BH", "QA", "AE", "OM", "SA"]
 # countryName:list = ["Kuwait", "Bahrain", "Qatar", "UAE", "Oman", "Saudi Arabia"]
 
-cc:list = ["BD", "AU", "IN", "CA", "US"]
-countryName:list = ["Bangladesh", "Australia", "India", "Canada", "USA"]
+cc:list = ["CA", "US", "IN", "BD", "AU"]
+countryName:list = ["Canada", "USA", "India", "Bangladesh", "Australia"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
