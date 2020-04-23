@@ -28,6 +28,8 @@ ML workflow (data used from UCI ML repository):
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import export_graphviz
 import pydot
@@ -90,6 +92,8 @@ percent_numFalse:float = round((num_false/(num_true+num_false)) *100, 2)
 TRAINING - DATA SPLITTING:
 1. Using scikit-learn library split prepared data into 70% Training set and 30% Testing set
 2. Define the feature set using all column names and predicted name using the diabetes column
+3. Verify predicted value was split correctly
+4. Check how many and what percentage of data have been splitted into Training and Teat subset
 '''
 feature_col_names = {'num_preg', 'glucose_conc', 'diastolic_bp', 'thickness', 'insulin', 'bmi', 'diab_pred', 'age'}
 predicted_class_name = {'diabetes'}
@@ -101,6 +105,70 @@ split_test_size = 0.30
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=split_test_size, random_state=42)
 print("% of training set {}".format(round(float((len(X_train)/len(df.index))*100),2)))
 print("% of test set {}".format(round(float((len(X_test)/len(df.index))*100),2)))
+print("")
+
+originalCountsTrue = len(df.loc[df['diabetes'] == 1])
+originalCountsFalse = len(df.loc[df['diabetes'] == 0])
+
+originalCountsTruePercent = round((originalCountsTrue/(originalCountsTrue+originalCountsFalse) * 100), 2)
+originalCountsFalsePercent = round((originalCountsFalse/(originalCountsTrue+originalCountsFalse) * 100), 2)
+
+print("Original True counts: {0}, ({1}%)".format(originalCountsTrue, originalCountsTruePercent))
+print("Original False counts: {0}, ({1}%)".format(originalCountsFalse, originalCountsFalsePercent))
+print("")
+
+trainCountsTrue = len(y_train[y_train[:] == 1])
+trainCountsFalse = len(y_train[y_train[:] == 0])
+
+trainCountsTruePercent = round((trainCountsTrue/(trainCountsTrue+trainCountsFalse) * 100), 2)
+trainCountsFalsePercent = round((trainCountsFalse/(trainCountsTrue+trainCountsFalse) * 100), 2)
+
+print("Training True counts: {0}, ({1}%)".format(trainCountsTrue, trainCountsTruePercent))
+print("Training False counts: {0}, ({1}%)".format(trainCountsFalse, trainCountsFalsePercent))
+print("")
+
+testCountsTrue = len(y_test[y_test[:] == 1])
+testCountsFalse = len(y_test[y_test[:] == 0])
+
+testCountsTruePercent = round((testCountsTrue/(testCountsTrue+testCountsFalse) * 100), 2)
+testCountsFalsePercent = round((testCountsFalse/(testCountsTrue+testCountsFalse) * 100), 2)
+
+print("Test True counts: {0}, ({1}%)".format(testCountsTrue, testCountsTruePercent))
+print("Test False counts: {0}, ({1}%)".format(testCountsFalse, testCountsFalsePercent))
+print("")
+
+'''
+POST-SPLIT DATA INTEGRITY CHECK/PREPARATION:
+1. Check if there is any missing data (0) in any of the columns (X features)
+2. Find how many rows have unexpected 0 values
+'''
+print(df.info())
+print(df.head())
+print("# of rows in the dataframe: {0}".format(len(df)))
+print("# of missing data in column glucose_conc: {0}".format(len(df.loc[df['glucose_conc'] == 0])))
+print("# of missing data in column diastolic_bp: {0}".format(len(df.loc[df['diastolic_bp'] == 0])))
+print("# of missing data in column thickness: {0}".format(len(df.loc[df['thickness'] == 0])))
+print("# of missing data in column insulin: {0}".format(len(df.loc[df['insulin'] == 0])))
+print("# of missing data in column bmi: {0}".format(len(df.loc[df['bmi'] == 0])))
+print("# of missing data in column diab_pred: {0}".format(len(df.loc[df['diab_pred'] == 0])))
+print("# of missing data in column age: {0}".format(len(df.loc[df['age'] == 0])))
+
+'''
+IMPUTING OPERATION TO REPLACE MISSING DATA CELLS:
+1. We'll use SimpleImputer class of sklearn.impute library
+2. We'll Impute with mean value of all 0 readings in all columns of X_train and X_test
+3. We'll use fit_transform() method of SimpleImputer class to fill in with mean and transform
+'''
+fill_0 = SimpleImputer(missing_values=0, strategy='mean')
+X_train = fill_0.fit_transform(X_train)
+X_test = fill_0.fit_transform(X_test)
+
+'''
+TRAINING OF NAIVE BAYES MODEL:
+1. We'll use GaussianNB class of sklearn.naive_bayes and train with X_train U_train data
+'''
+nb_model = GaussianNB()
+nb_model.fit(X_train, y_train.ravel())
 
 #---> ekhan theke
 
