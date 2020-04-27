@@ -24,7 +24,7 @@ df["lastUpdated"] = pd.to_datetime(df.lastUpdated).dt.date
 df.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/GlobalTestData.csv", index=True)
 
 #Data from flightradar24.com
-cv = pd.read_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/commercial_flights.csv")
+cv = pd.read_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/commercial_flightsApr262020.csv")
 cv["DateTime"] = pd.to_datetime(cv.DateTime).dt.date
 # print(cv.info())
 
