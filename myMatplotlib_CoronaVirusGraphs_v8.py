@@ -179,12 +179,13 @@ tc_SriLanka = int(cv1_SriLanka['Gross Total cases'])
 totalSAARCCases = tc_Bangladesh+tc_Bhutan+tc_India+tc_Maldives+tc_Nepal+tc_Pakistan+tc_SriLanka
 
 # Pie chart plotting
-labels = 'Bangladesh', 'India', 'Maldives', 'Nepal', 'Pakistan', 'Bhutan', 'Sri Lanka'
-sizes = [tc_Bangladesh,  tc_India, tc_Maldives, tc_Nepal, tc_Pakistan, tc_Bhutan, tc_SriLanka]
-explode = (0.2, 0.05, 0.1, 0.5, 0.05, 0.2, 0.2)
+labels = 'Bangladesh', 'Nepal', 'India', 'Maldives', 'Pakistan', 'Bhutan', 'Sri Lanka'
+sizes = [tc_Bangladesh,  tc_Nepal, tc_India, tc_Maldives, tc_Pakistan, tc_Bhutan, tc_SriLanka]
+# explode = (0.2, 0.05, 0.1, 0.5, 0.05, 0.2, 0.2)
+explode = (0,0,0,0,0,0,0)
 
 fig2, ax2 = plt.subplots()
-ax2.pie(sizes, explode=explode, labels=labels, autopct='%1.f%%', shadow=False, startangle=45)
+ax2.pie(sizes, explode=explode, labels=labels, autopct='%1.f%%', shadow=False, startangle=105)
 ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 ax2.set(aspect="equal", title='Total SAARC Cases as of {} = {}'.format(todayDate, totalSAARCCases))
 plt.show()
