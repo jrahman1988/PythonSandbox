@@ -7,11 +7,11 @@ import requests
 import datetime
 from matplotlib import pyplot as plt
 
-# cc:list = ["KW", "BH", "QA", "AE", "OM", "SA"]
-# countryName:list = ["Kuwait", "Bahrain", "Qatar", "UAE", "Oman", "Saudi Arabia"]
+# cc:list = ["BD"]
+# countryName:list = ["Bangladesh"]
 
-cc:list = ["CA", "US", "IN", "BD", "AU", "GB", "JP"]
-countryName:list = ["Canada", "USA", "India", "Bangladesh", "Australia", "UK", "Japan"]
+cc:list = ["BD", "CA", "US", "RU", "IN", "PK", "IL", "PS"]
+countryName:list = ["Bangladesh", "Canada", "USA", "Russia", "India", "Pakistan", "Israel", "Palestine"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
@@ -64,7 +64,7 @@ for j in cc:
     tr_percentChangesincelastweek:float = round ((tr_deltasincelastweek/tr_sevendaysbefore *100),1)
     td_percentChangesincelastweek:float = round ((td_deltasincelastweek/td_sevendaysbefore *100),1)
 
-    ax = cv.plot(kind='bar', x='last_updated', y=['total_confirmed', 'total_deaths', 'total_recovered'] , rot=15, figsize=(16,6), grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
+    ax = cv.plot(kind='hist', x='last_updated', y=['total_confirmed', 'total_deaths', 'total_recovered'] , rot=15, figsize=(16,6), grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
     ax.set_xlabel("Trend from April 01, 2020 until today")
     ax.set_ylabel("Number of cases")
     plt.suptitle(today)
