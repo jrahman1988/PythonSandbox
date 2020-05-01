@@ -92,7 +92,7 @@ grossTotalDeaths = int(s['Gross Total deaths'])
 # Pie chart plotting
 labels = 'Total Recovered', 'Active Cases', 'Gross Total Deaths'
 sizes = [totalRecovered, totalActiveCases, grossTotalDeaths]
-colours = ['green', 'yellow', 'gray']
+colours = ['lime', 'orange', 'silver']
 explode = (0.04, 0.04, 0.1)  # only "explode" the 3rd slice (i.e. 'Gross Total Deaths')
 
 fig1, ax1 = plt.subplots()
