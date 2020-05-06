@@ -7,11 +7,11 @@ import requests
 import datetime
 from matplotlib import pyplot as plt
 
-cc:list = ["GB"]
-countryName:list = ["UK"]
-#
-# cc:list = ["BD", "IN", "CA", "US", "VN", "NZ", "AU"]
-# countryName:list = ["Bangladesh", "India", "Canada", "USA", "Vietnam", "New Zealand", "Australia"]
+cc:list = ["BD"]
+countryName:list = ["Bangladesh"]
+
+# cc:list = ["BD", "IN", "CA", "US", "VN", "NZ", "AU", "GB"]
+# countryName:list = ["Bangladesh", "India", "Canada", "USA", "Vietnam", "New Zealand", "Australia", "UK"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
