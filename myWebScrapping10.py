@@ -64,7 +64,7 @@ for j in cc:
     tr_percentChangesincelastweek:float = round ((tr_deltasincelastweek/tr_sevendaysbefore *100),1)
     td_percentChangesincelastweek:float = round ((td_deltasincelastweek/td_sevendaysbefore *100),1)
 
-    ax = cv.plot(kind='hist', x='last_updated', y=['total_confirmed', 'total_deaths', 'total_recovered'] , rot=15, figsize=(16,6), grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
+    ax = cv.plot(kind='bar', x='last_updated', y=['total_confirmed', 'total_deaths', 'total_recovered'] , rot=15, figsize=(16,6), grid=True, title="Trend of {}".format(countryName[k]), ax=ax)
     ax.set_xlabel("Trend from April 01, 2020 until today")
     ax.set_ylabel("Number of cases")
     plt.suptitle(today)
