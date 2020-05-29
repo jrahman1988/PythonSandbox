@@ -16,7 +16,7 @@ countryName:list = ["Bangladesh"]
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
 endDate = dt.strftime("%Y"+"-"+"%m"+"-"+"%d")
-startDate="2020-04-01"
+startDate="2020-04-28"
 today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
 fileNameDate = dt.strftime("%b%d%Y")

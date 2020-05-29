@@ -23,19 +23,19 @@ from matplotlib import pyplot as plt
 
 # Read in data and display first 5 rows
 features = pd.read_csv('~/Desktop/Learning/DataScience/ML Exercise/temps.csv')
-# print(features.head(5))
-# print(features.info())
-# print(features.describe())
-# print(features.shape)
-# print(features['actual'])
+print(features.head(5))
+print(features.info())
+print(features.describe())
+print(features.shape)
+print(features['actual'])
 
-# #Data integrity check by data visualiztion
-# x_day = features['day']
-#
-# y_Actual = features['actual']
-# y_Average = features['average']
-# y_Previousday = features['temp_1']
-# y_Daybeforeyesterday = features['temp_2']
+#Data integrity check by data visualiztion
+x_day = features['day']
+
+y_Actual = features['actual']
+y_Average = features['average']
+y_Previousday = features['temp_1']
+y_Daybeforeyesterday = features['temp_2']
 
 # #Plot a bar graph from the data (names, runs)
 # plt.figure(figsize=(20, 5))
@@ -87,7 +87,6 @@ print('Training feature data (X-training) shape = ', train_features.shape)
 print('Training labels data (y-training) shape = ',train_labels.shape)
 print('Test feature data (X-test) shape = ',test_features.shape)
 print('Test labels data (y-test) shape = ',test_labels.shape)
-# print(test_features.info())
 
 '''
 ESTABLISH BASELINE:

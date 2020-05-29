@@ -1,6 +1,5 @@
 '''
-Using Matplotlib module of Python, draw different graphs, capture data thru web scraping technique:
-GET (using requests lib) -> PARSE (using BeautifulSoup lib) -> CONSTRUCT DF (using PANDAS lib)
+Using Matplotlib module of Python, draw different graphs, using data read from a JASON file
 '''
 from matplotlib import pyplot as plt
 import numpy as np
@@ -9,9 +8,6 @@ import datetime
 import requests
 import http.client
 import mimetypes
-import requests
-from bs4 import BeautifulSoup
-from tabulate import tabulate
 
 #Read data from a GET R
 
@@ -28,12 +24,6 @@ dt = datetime.datetime.now()
 today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
 fileNameDate = dt.strftime("%b%d%Y")
-
-##---Web data scrapimg and then constructing a DF then save it to today.csv file--##
-req = requests.get("https://www.worldometers.info/coronavirus/")
-df = pd.read_html(req.content)[0]
-df.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/today.csv", index=False)
-##----------------End of web scrapping and contruction of DF-----------------------##
 
 #METHOD to plot the bar graphs
 def plotGraph(dfname, rowname, colname, fignum, graphcolor, titlestr):
@@ -54,49 +44,31 @@ def plotGraph(dfname, rowname, colname, fignum, graphcolor, titlestr):
     return()
 
 ##--START: Data read, write and preparation---------------------------##
-#Read from a local CSV file, which was created earlier thru web scraping
-cv = pd.read_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/today.csv")
-# print(cv.info())
+req = "http://api.coronatracker.com/v3/stats/worldometer/country"
+cv= pd.read_json(req)
 
 #Rename the columns for better readability
-cv = cv.rename(columns={'Country,Other':'Country',                  #type: object
-                        'TotalCases': 'Total cases',                #type: int64
-                        'TotalDeaths': 'Total deaths',              #type: object
-                        'TotalRecovered': 'Total recovered',        #type: float64
-                        'NewCases': 'New cases',                    #type: float64
-                        'NewDeaths': 'New deaths',                  #type: float64
-                        'ActiveCases': 'Active cases',              #type: int64
-                        'Serious,Critical': 'Critical cases',       #type: float64
-                        'Tot Cases/1M pop': 'Cases per 1M pop.',    #type: float64
-                        'Deaths/1M pop': 'Deaths per 1M pop.',      #type: float64
-                        'TotalTests': 'Total tests done',           #type: float64
-                        'Tests/ 1M pop': 'Tests per 1M pop.'})      #type: float64
+cv = cv.rename(columns={'country':'Country',
+                        'totalConfirmed': 'Total cases',
+                        'totalDeaths': 'Total deaths',
+                        'totalRecovered': 'Total recovered',
+                        'dailyConfirmed': 'New cases',
+                        'dailyDeaths': 'New deaths',
+                        'activeCases': 'Active cases',
+                        'totalCritical': 'Critical cases',
+                        'totalConfirmedPerMillionPopulation': 'Total cases per 1M pop.'})
+
+#Drop all unused columns 'countryCode', 'lat', 'lng', 'FR', 'PR', 'lastUpdated' from the DF
+cv = cv.drop(['countryCode', 'lat', 'lng', 'FR', 'PR', 'lastUpdated'], axis=1)
 
 #Remove any leading or trailing white spaces from Country names
 cv['Country'] = cv['Country'].str.strip()
 
-#Drop a row where the 'Country' column contains a row of 'World'
-cv = cv[cv.Country != "World"]
-
 #Drop a row where the 'Country' column contains a value 'Diamond Princess'
 cv = cv[cv.Country != "Diamond Princess"]
 
-#Drop a row where the 'Country' column contains a value 'Total:'
-cv = cv[cv.Country != "Total:"]
-
 #Fill all NaN values with 0
 cv = cv.fillna(0)
-
-#Convert all columns type to int
-cv['Total deaths'] = cv['Total deaths'].astype(int)
-cv['Total recovered'] = cv['Total recovered'].astype(int)
-cv['New cases'] = cv['New cases'].astype(int) #<-- here is an error to be fixed: ValueError: invalid literal for int() with base 10: '+1,434'
-cv['New deaths'] = cv['New deaths'].astype(int)
-cv['Critical cases'] = cv['Critical cases'].astype(int)
-cv['Cases per 1M pop.'] = cv['Cases per 1M pop.'].astype(int)
-cv['Deaths per 1M pop.'] = cv['Deaths per 1M pop.'].astype(int)
-cv['Total tests done'] = cv['Total tests done'].astype(int)
-cv['Tests per 1M pop.'] = cv['Tests per 1M pop.'].astype(int)
 
 #Summing up 'Total cases' + 'New cases' and create a new column named: 'Gross Total cases'
 cv["Gross Total cases"] = cv["Total cases"] + cv["New cases"]
@@ -104,11 +76,9 @@ cv["Gross Total cases"] = cv["Total cases"] + cv["New cases"]
 #Summing up 'Total deaths' + 'New deaths' and create a new column named: 'Gross Total deaths'
 cv["Gross Total deaths"] = cv["Total deaths"] + cv["New deaths"]
 
-#Save a data record for today in a .csv file
-cv.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/corona_virus-{}.csv".format(fileNameDate), index=False)
-
-# print(cv.head())
-# ##--ENDS: Data read, write and preparation---------------------------##
+#Write the DF to corona_virus.csv by excluding the DF index and appending with today's date with file name
+cv.to_csv("~/Desktop/Learning/Sandbox/PythonSandbox/Data/corona_virus-{}.csv".format(fileNameDate), index = False)
+##--ENDS: Data read, write and preparation---------------------------##
 
 
 ##--WORLD data plotting--------------------##
@@ -135,12 +105,10 @@ plt.show()
 #Sorting the data based on a single column in a file and output using sort_values() method (descending order - ascending=False)
 cv_TotalCases = cv.sort_values('Gross Total cases', ascending=False)
 cv_TotalRecovered = cv.sort_values('Total recovered', ascending=False)
-cv_CasesPerMillion = cv.sort_values('Cases per 1M pop.', ascending=False)
+cv_TotalCasesPerMillion = cv.sort_values('Total cases per 1M pop.', ascending=False)
 cv_TotalDeaths = cv.sort_values('Gross Total deaths', ascending=False)
 cv_NewCases = cv.sort_values('New cases', ascending=False)
 cv_NewDeaths = cv.sort_values('New deaths', ascending=False)
-cv_DeathsPerMillion = cv.sort_values('Deaths per 1M pop.', ascending=False)
-cv_TestsPerMilion = cv.sort_values('Tests per 1M pop.', ascending=False)
 
 #Graph of top 'Gross Total cases'
 x = cv_TotalCases.head(topCountryNum)
@@ -160,10 +128,10 @@ graphColor = "limegreen"
 titlestring = "Top {} countries based on: ".format(topCountryNum)
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
-#Graph of top 'Cases per 1M pop.'
-x = cv_CasesPerMillion.head(topCountryNum)
+#Graph of top 'Total cases per 1M pop.'
+x = cv_TotalCasesPerMillion.head(topCountryNum)
 rowcategory = "Country"
-columncategory = "Cases per 1M pop."
+columncategory = "Total cases per 1M pop."
 figureNum = 3
 graphColor = "cornflowerblue"
 titlestring = "Top {} countries based on: ".format(topCountryNum)
@@ -175,24 +143,6 @@ rowcategory = "Country"
 columncategory = "Gross Total deaths"
 figureNum = 4
 graphColor = "black"
-titlestring = "Top {} countries based on: ".format(topCountryNum)
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top 'Deaths per million population'
-x = cv_DeathsPerMillion.head(topCountryNum)
-rowcategory = "Country"
-columncategory = "Deaths per 1M pop."
-figureNum = 5
-graphColor = "dimgrey"
-titlestring = "Top {} countries based on: ".format(topCountryNum)
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top 'Tests per 1M pop.'
-x = cv_TestsPerMilion.head(topCountryNum)
-rowcategory = "Country"
-columncategory = "Tests per 1M pop."
-figureNum = 6
-graphColor = "lightseagreen"
 titlestring = "Top {} countries based on: ".format(topCountryNum)
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 
@@ -229,12 +179,13 @@ tc_SriLanka = int(cv1_SriLanka['Gross Total cases'])
 totalSAARCCases = tc_Bangladesh+tc_Bhutan+tc_India+tc_Maldives+tc_Nepal+tc_Pakistan+tc_SriLanka
 
 # Pie chart plotting
-labels = 'Bangladesh', 'India', 'Maldives', 'Nepal', 'Pakistan', 'Bhutan', 'Sri Lanka'
-sizes = [tc_Bangladesh,  tc_India, tc_Maldives, tc_Nepal, tc_Pakistan, tc_Bhutan, tc_SriLanka]
-explode = (0.2, 0.05, 0.1, 0.5, 0.05, 0.2, 0.2)
+labels = 'Bangladesh', 'Nepal', 'India', 'Maldives', 'Pakistan', 'Bhutan', 'Sri Lanka'
+sizes = [tc_Bangladesh,  tc_Nepal, tc_India, tc_Maldives, tc_Pakistan, tc_Bhutan, tc_SriLanka]
+# explode = (0.2, 0.05, 0.1, 0.5, 0.05, 0.2, 0.2)
+explode = (0,0,0,0,0,0,0)
 
 fig2, ax2 = plt.subplots()
-ax2.pie(sizes, explode=explode, labels=labels, autopct='%1.f%%', shadow=False, startangle=45)
+ax2.pie(sizes, explode=explode, labels=labels, autopct='%1.f%%', shadow=False, startangle=105)
 ax2.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 ax2.set(aspect="equal", title='Total SAARC Cases as of {} = {}'.format(todayDate, totalSAARCCases))
 plt.show()
@@ -242,18 +193,16 @@ plt.show()
 #Sorting the data based on a single column in a file and output using sort_values() method (descending order - ascending=False)
 cv1_TotalCases = cv1.sort_values('Gross Total cases', ascending=False)
 cv1_TotalRecovered = cv1.sort_values('Total recovered', ascending=False)
-cv1_CasesPerMillion = cv1.sort_values('Cases per 1M pop.', ascending=False)
+cv1_TotalCasesPerMillion = cv1.sort_values('Total cases per 1M pop.', ascending=False)
 cv1_TotalDeaths = cv1.sort_values('Gross Total deaths', ascending=False)
 cv1_NewCases = cv1.sort_values('New cases', ascending=False)
 cv1_NewDeaths = cv1.sort_values('New deaths', ascending=False)
-cv1_DeathsPerMillion = cv1.sort_values('Deaths per 1M pop.', ascending=False)
-cv1_TestsPerMilion = cv1.sort_values('Tests per 1M pop.', ascending=False)
 
 #Graph of SAARC 'Total cases'
 x = cv1_TotalCases.head(7)
 rowcategory = "Country"
 columncategory = "Gross Total cases"
-figureNum = 7
+figureNum = 6
 graphColor = "Red"
 titlestring = "SAARC countries compare based on: "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
@@ -262,7 +211,7 @@ plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 x = cv1_TotalRecovered.head(7)
 rowcategory = "Country"
 columncategory = "Total recovered"
-figureNum = 8
+figureNum = 7
 graphColor = "lime"
 titlestring = "SAARC countries compare based on: "
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
@@ -271,25 +220,7 @@ plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
 x = cv1_TotalDeaths.head(7)
 rowcategory = "Country"
 columncategory = "Gross Total deaths"
-figureNum = 9
+figureNum = 8
 graphColor = "black"
 titlestring = "SAARC countries compare based on: "
-plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-# #Graph of top SAARC 'Deaths per million population'
-# x = cv1_DeathsPerMillion.head(7)
-# rowcategory = "Country"
-# columncategory = "Deaths per 1M pop."
-# figureNum = 10
-# graphColor = "dimgrey"
-# titlestring = "SAARC countries compare based on: "
-# plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
-
-#Graph of top SAARC 'Tests per 1M pop.'
-x = cv1_TestsPerMilion.head(7)
-rowcategory = "Country"
-columncategory = "Tests per 1M pop."
-figureNum = 11
-graphColor = "lightseagreen"
-titlestring = "SAARC countries compare based on:"
 plotGraph(x, rowcategory, columncategory, figureNum, graphColor, titlestring)
