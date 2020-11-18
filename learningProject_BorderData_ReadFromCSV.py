@@ -100,7 +100,7 @@ Syntax:
 3. Put the total of each state in a list
 ==============================================================================================================
 '''
-listOfTotalPedestrians: list = []
+listOfTotalPedestriansByState: list = []
 stateList: list = ["AK", "ID", "ME", "MI", "MN", "MT", "ND", "NY", "VT", "WA"]
 for i in stateList:
     stateWisePedestrianDF=pedestrianDF[pedestrianDF.State == i]
@@ -109,10 +109,11 @@ for i in stateList:
     print("Total pedestrians crossed US-Canada border since 1996 in state {} = ".format(i), totalPedestrianCrossed)
 
     # Put the total in a a list
-    listOfTotalPedestrians.append(totalPedestrianCrossed)
+    listOfTotalPedestriansByState.append(totalPedestrianCrossed)
 
-print("\nList of the State wise pedestrians = ", listOfTotalPedestrians)
+print("\nList of the State wise pedestrians = ", listOfTotalPedestriansByState, "\n")
 '''
+
 ==============================================================================================================
 Plot a bar chart showing pedestrians of each state using matplotlib of pyplot
 ==============================================================================================================
@@ -124,14 +125,63 @@ plt.xlabel("States")
 plt.ylabel("Number of Pedestrians")
 plt.xticks(rotation=0)
 plt.grid(False)
-plt.bar(stateList, listOfTotalPedestrians)
+plt.bar(stateList, listOfTotalPedestriansByState)
 
 # This is the location for the annotated text
 i = 1.0
 j = 1000
-# Annotating the bar plot with the values (listOfTotalPedestrians)
+# Annotating the bar plot with the values (listOfTotalPedestriansByState)
 for i in range(len(stateList)):
-    plt.annotate(listOfTotalPedestrians[i], (-0.25 + i, listOfTotalPedestrians[i] + j))
+    plt.annotate(listOfTotalPedestriansByState[i], (-0.25 + i, listOfTotalPedestriansByState[i] + j))
 
 # Plotting
 plt.show()
+
+'''
+==============================================================================================================
+Find out year wise total number of Pedestrians crossed US-Canada border since 1996
+Syntax:
+1. Construct year wise filtered DF which will contain only pedestrians data for that specific year (using for-loop)
+2. Calculate the year wise total of pedestrians crossed the border
+3. Put the total of each year in a list
+==============================================================================================================
+'''
+listOfTotalPedestriansByYear: list = []
+listOfYear: list = []
+pedestrianDF.Date = pd.to_datetime(pedestrianDF.Date)
+for i in range(1996,2021,1):
+    yearWisePedestrianDF = pedestrianDF[pedestrianDF.Date.dt.year.eq(i)]
+    yearwiseTotalPedestrianCrossed = yearWisePedestrianDF['Value'].sum()
+    yearWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/StateWiseData/YearwisePedestrian{}.csv".format(i), index=True)
+    print("Total pedestrians for the year {}".format(i), yearwiseTotalPedestrianCrossed)
+
+    # Put the total in a list
+    listOfTotalPedestriansByYear.append(yearwiseTotalPedestrianCrossed)
+    listOfYear.append(i)
+
+print("\nList of the State wise pedestrians = ", listOfTotalPedestriansByYear, "\n")
+
+'''
+==============================================================================================================
+Plot a bar chart showing pedestrians of each year using matplotlib of pyplot
+==============================================================================================================
+'''
+# Configuration of the plot parameters
+plt.figure(figsize=(16, 6))
+plt.title("Year wise pedestrian crossed since 1996")
+plt.xlabel("Year")
+plt.ylabel("Number of Pedestrians")
+plt.xticks(rotation=0)
+plt.grid(False)
+plt.bar(listOfYear, listOfTotalPedestriansByYear)
+
+# This is the location for the annotated text
+i = 1.0
+j = 1000
+# Annotating the bar plot with the values (listOfTotalPedestriansByState)
+for i in range(len(listOfYear)):
+    plt.annotate(listOfTotalPedestriansByYear[i], (-0.25 + i, listOfTotalPedestriansByYear[i] + j))
+
+# Plotting
+plt.show()
+
