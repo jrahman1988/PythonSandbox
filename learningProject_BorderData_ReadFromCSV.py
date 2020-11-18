@@ -5,6 +5,7 @@ The two workhorse functions for reading text files (or the flat files) are read_
 They both use the same parsing code to intelligently convert tabular data into a DataFrame object
 '''
 import pandas as pd
+from matplotlib import pyplot as plt
 
 # Some house keeping rules to keep the data presentaion tidy
 desired_width=320
@@ -60,14 +61,77 @@ print("Total dropped rows which contained 'US-Mexico Border' under 'Value' colum
 print("=========================================\n")
 
 '''
+==============================================================================================================
+We need to correct some erroneous State data, those don't make any borders with US-Canada
+Get rid off all data rows with 'AZ', 'CA' and 'TX' values under State
+==============================================================================================================
+'''
+df3 = df2[(df2.State != "AZ") & (df2.State != "TX") & (df2.State != "CA")]
+print("\n========================================= Only US-Canada Border data ================================")
+print("Output the full file in DF format \n", df3)
+print("=========================================")
+afterDroppingAZandCAandTX = len(df3.index)
+print("Total rows after dropping 'AZ', 'CA' and 'TX' State data = ", afterDroppingAZandCAandTX)
+print("Total dropped rows which contained 'AZ', 'CA' and 'TX' State data = ", (beforeDroppingZeroes-afterDroppingAZandCAandTX))
+df3.to_csv("~/Desktop/Learning/Learning Together/BorderData/StateWiseData/PedestrianExcudedAZCATX.csv", index=True)
+print("=========================================\n")
+
+'''
+==============================================================================================================
 Find out total number of Pedestrians crossed US-Canada border since 1996
 Syntax:
 1. Construct a filtered DF which will contain only pedestrians data (pedestrianDF=(df2[df2.Measure == Pedestrians])
 2. Sort the pedestrianDF by column 'Value' in ascending order
 3. Get the total of 'Value' column
+==============================================================================================================
 '''
-pedestrianDF=df2[df2.Measure == "Pedestrians"]
+pedestrianDF=df3[df3.Measure == "Pedestrians"]
 pedestrianDF=pedestrianDF.sort_values('Value', ascending=False)
 print("\nOutput first 100 header data of the pedestrianDF \n", pedestrianDF.head(100))
 totalPedestrians=pedestrianDF['Value'].sum()
-print("Total pedestrians crossed US-Canada border since 1996 = ", totalPedestrians)
+print("Total pedestrians crossed US-Canada border since 1996 = ", totalPedestrians, "\n")
+
+'''
+==============================================================================================================
+Find out state wise total number of Pedestrians crossed US-Canada border since 1996
+Syntax:
+1. Construct state wise filtered DF which will contain only pedestrians data for that specific state (using for-loop)
+2. Calculate the state wise total of pedestrians crossed the border
+3. Put the total of each state in a list
+==============================================================================================================
+'''
+listOfTotalPedestrians: list = []
+stateList: list = ["AK", "ID", "ME", "MI", "MN", "MT", "ND", "NY", "VT", "WA"]
+for i in stateList:
+    stateWisePedestrianDF=pedestrianDF[pedestrianDF.State == i]
+    stateWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/StateWiseData/Pedestrian{}.csv".format(i), index=True)
+    totalPedestrianCrossed=stateWisePedestrianDF['Value'].sum()
+    print("Total pedestrians crossed US-Canada border since 1996 in state {} = ".format(i), totalPedestrianCrossed)
+
+    # Put the total in a a list
+    listOfTotalPedestrians.append(totalPedestrianCrossed)
+
+print("\nList of the State wise pedestrians = ", listOfTotalPedestrians)
+'''
+==============================================================================================================
+Plot a bar chart showing pedestrians of each state using matplotlib of pyplot
+==============================================================================================================
+'''
+# Configuration of the plot parameters
+plt.figure(figsize=(16, 6))
+plt.title("State wise pedestrian crossed since 1996")
+plt.xlabel("States")
+plt.ylabel("Number of Pedestrians")
+plt.xticks(rotation=0)
+plt.grid(False)
+plt.bar(stateList, listOfTotalPedestrians)
+
+# This is the location for the annotated text
+i = 1.0
+j = 1000
+# Annotating the bar plot with the values (listOfTotalPedestrians)
+for i in range(len(stateList)):
+    plt.annotate(listOfTotalPedestrians[i], (-0.25 + i, listOfTotalPedestrians[i] + j))
+
+# Plotting
+plt.show()
