@@ -119,18 +119,17 @@ Plot a bar chart showing pedestrians of each state using matplotlib of pyplot
 ==============================================================================================================
 '''
 # Configuration of the plot parameters
-plt.figure(figsize=(16, 6))
+plt.figure(figsize=(12, 6))
 plt.title("State wise pedestrian crossed since 1996")
 plt.xlabel("States")
 plt.ylabel("Number of Pedestrians")
 plt.xticks(rotation=0)
 plt.grid(False)
-plt.bar(stateList, listOfTotalPedestriansByState)
+plt.bar(stateList, listOfTotalPedestriansByState,  color="salmon")
 
 # This is the location for the annotated text
 i = 1.0
 j = 1000
-# Annotating the bar plot with the values (listOfTotalPedestriansByState)
 for i in range(len(stateList)):
     plt.annotate(listOfTotalPedestriansByState[i], (-0.25 + i, listOfTotalPedestriansByState[i] + j))
 
@@ -152,7 +151,7 @@ pedestrianDF.Date = pd.to_datetime(pedestrianDF.Date)
 for i in range(1996,2021,1):
     yearWisePedestrianDF = pedestrianDF[pedestrianDF.Date.dt.year.eq(i)]
     yearwiseTotalPedestrianCrossed = yearWisePedestrianDF['Value'].sum()
-    yearWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/StateWiseData/YearwisePedestrian{}.csv".format(i), index=True)
+    yearWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/YearWiseData/YearwisePedestrian{}.csv".format(i), index=True)
     print("Total pedestrians for the year {}".format(i), yearwiseTotalPedestrianCrossed)
 
     # Put the total in a list
@@ -167,21 +166,85 @@ Plot a bar chart showing pedestrians of each year using matplotlib of pyplot
 ==============================================================================================================
 '''
 # Configuration of the plot parameters
-plt.figure(figsize=(16, 6))
+plt.figure(figsize=(12, 6))
 plt.title("Year wise pedestrian crossed since 1996")
 plt.xlabel("Year")
 plt.ylabel("Number of Pedestrians")
 plt.xticks(rotation=0)
 plt.grid(False)
-plt.bar(listOfYear, listOfTotalPedestriansByYear)
+plt.bar(listOfYear, listOfTotalPedestriansByYear, color="orange")
 
 # This is the location for the annotated text
 i = 1.0
 j = 1000
-# Annotating the bar plot with the values (listOfTotalPedestriansByState)
 for i in range(len(listOfYear)):
     plt.annotate(listOfTotalPedestriansByYear[i], (-0.25 + i, listOfTotalPedestriansByYear[i] + j))
 
 # Plotting
 plt.show()
 
+'''
+==============================================================================================================
+Function implementation: findPresidencyWiseTotal()
+What it does:
+1. Take the DF 'pedestrianDF' of the pedestrians crossed US-Canada border as the master data
+2. Now filter out the data for the range of start and end year of each presidency term
+3. Calculate the total pedestrians crossed during that presidency term
+4. Save data for each presidency term in .CSV format
+==============================================================================================================
+'''
+def findPresidencyWiseTotal(presTerm:str, presStartYr:int, presEndYear:int):
+    presidencyWisePedestrianDF = pedestrianDF[pedestrianDF.Date.dt.year.isin(range(presStartYr, presEndYear))]
+    presidencyWiseTotalPedestrianCrossed = presidencyWisePedestrianDF['Value'].sum()
+    presidencyWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/PresidencyWiseData/presidencyWisePedestrian{}.csv".format(presTerm), index=True)
+    print("Total pedestrians for the presidency {}".format(presTerm), presidencyWiseTotalPedestrianCrossed)
+
+    # Put the total in a list
+    listOfTotalPedestriansByPresidency.append(presidencyWiseTotalPedestrianCrossed)
+
+'''
+==============================================================================================================
+Find out total pedestrians crossed during different presidency
+Syntax:
+1. Create a list of the presidency terms
+2. Create a list of start year of each presidency
+3. Create a list of end year of each presidency
+4. Call a function in a loop by passing the name of the presidency terms, start year and end year
+5. Print the list of total pedestrians crossed in each presidency
+==============================================================================================================
+'''
+listOfTotalPedestriansByPresidency: list = []
+presidencyTermList: list = ["BC_Term1-(1996-00)", "GWB_Term1-(2001-04)", "GWB_Term2-(2005-08)", "BO_Term1-(2009-12)", "BO_Term2-(2013-16)", "DT_Term1-(2017-20)"]
+presidencyStartYear: list = [1996, 2001, 2005, 2009, 2013, 2017]
+presidencyEndYear: list = [2001, 2005, 2009, 2013, 2017, 2021]
+for i in range(6):
+    presTerm=presidencyTermList[i]
+    presStartYr=presidencyStartYear[i]
+    presEndYear=presidencyEndYear[i]
+
+    findPresidencyWiseTotal(presTerm, presStartYr, presEndYear)
+
+print("\nList of the Presidency wise pedestrians = ", listOfTotalPedestriansByPresidency, "\n")
+
+'''
+==============================================================================================================
+Plot a bar chart showing pedestrians of each presidency term using matplotlib of pyplot
+==============================================================================================================
+'''
+# Configuration of the plot parameters
+plt.figure(figsize=(16, 6))
+plt.title("Presidency wise pedestrian crossed since 1996")
+plt.xlabel("US Presidency Term")
+plt.ylabel("Number of Pedestrians")
+plt.xticks(rotation=0)
+plt.grid(False)
+plt.bar(presidencyTermList, listOfTotalPedestriansByPresidency, color="lightgreen")
+
+# This is the location for the annotated text
+i = 1.0
+j = 1000
+for i in range(len(presidencyTermList)):
+    plt.annotate(listOfTotalPedestriansByPresidency[i], (-0.25 + i, listOfTotalPedestriansByPresidency[i] + j))
+
+# Plotting
+plt.show()
