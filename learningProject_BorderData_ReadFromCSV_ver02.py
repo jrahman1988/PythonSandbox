@@ -11,7 +11,50 @@ from matplotlib import pyplot as plt
 desired_width=320
 pd.set_option('display.width', desired_width)
 pd.set_option('display.max_columns',100)
+'''
+==============================================================================================================
+Function implemenattion: plotBarChart()
+What it does:
+1. Takes parameters of barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour
+2. Plot the bar chart
+==============================================================================================================
+'''
+def plotBarChart(barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour):
+    # Configuration of the plot parameters
+    plt.figure(figsize=(12, 6))
+    plt.title(barTitle)
+    plt.xlabel(barXLabel)
+    plt.ylabel(barYLabel)
+    plt.xticks(rotation=barXRotation)
+    plt.grid(False)
+    plt.bar(listOfXData, listOfYData, color=barColour)
 
+    # This is the location for the annotated text
+    i = 1.0
+    j = 1000
+    for i in range(len(listOfXData)):
+        plt.annotate(listOfYData[i], (-0.25 + i, listOfYData[i] + j))
+
+    # Plotting
+    plt.show()
+'''
+==============================================================================================================
+Function implementation: findPresidencyWiseTotal()
+What it does:
+1. Take the DF 'pedestrianDF' of the pedestrians crossed US-Canada border as the master data
+2. Now filter out the data for the range of start and end year of each presidency term
+3. Calculate the total pedestrians crossed during that presidency term
+4. Save data for each presidency term in .CSV format
+==============================================================================================================
+'''
+def findPresidencyWiseTotal(presTerm, presStartYr, presEndYear):
+    presidencyWisePedestrianDF = pedestrianDF[pedestrianDF.Date.dt.year.isin(range(presStartYr, presEndYear))]
+    presidencyWiseTotalPedestrianCrossed = presidencyWisePedestrianDF['Value'].sum()
+    presidencyWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/PresidencyWiseData/presidencyWisePedestrian{}.csv".format(presTerm), index=True)
+    print("Total pedestrians for the presidency {}".format(presTerm), presidencyWiseTotalPedestrianCrossed)
+
+    # Put the total in a list
+    listOfTotalPedestriansByPresidency.append(presidencyWiseTotalPedestrianCrossed)
 '''
 ==============================================================================================================
 Read the data and present without any change (JUST to check data integrity after converted to data frame
@@ -29,7 +72,6 @@ print("Total rows in raw data = ", len(df.index) , "<--*** performance wise this
 print("Total rows in raw data using shape[0] = ", df.shape[0])
 beforeDroppingZeroes = len(df.index)
 print("=========================================")
-
 '''
 ==============================================================================================================
 Get rid off all data rows with '0' values under Value column, we access to the column named 'Value' of DF and
@@ -59,7 +101,6 @@ afterDroppingMexico = len(df2.index)
 print("Total rows after dropping all US-Mexico Border data = ", afterDroppingMexico)
 print("Total dropped rows which contained 'US-Mexico Border' under 'Value' column = ", (beforeDroppingZeroes-afterDroppingMexico))
 print("=========================================\n")
-
 '''
 ==============================================================================================================
 We need to correct some erroneous State data, those don't make any borders with US-Canada
@@ -75,7 +116,6 @@ print("Total rows after dropping 'AZ', 'CA' and 'TX' State data = ", afterDroppi
 print("Total dropped rows which contained 'AZ', 'CA' and 'TX' State data = ", (beforeDroppingZeroes-afterDroppingAZandCAandTX))
 df3.to_csv("~/Desktop/Learning/Learning Together/BorderData/StateWiseData/PedestrianExcudedAZCATX.csv", index=True)
 print("=========================================\n")
-
 '''
 ==============================================================================================================
 Find out total number of Pedestrians crossed US-Canada border since 1996
@@ -90,7 +130,6 @@ pedestrianDF=pedestrianDF.sort_values('Value', ascending=False)
 print("\nOutput first 100 header data of the pedestrianDF \n", pedestrianDF.head(100))
 totalPedestrians=pedestrianDF['Value'].sum()
 print("Total pedestrians crossed US-Canada border since 1996 = ", totalPedestrians, "\n")
-
 '''
 ==============================================================================================================
 Find out state wise total number of Pedestrians crossed US-Canada border since 1996
@@ -98,6 +137,7 @@ Syntax:
 1. Construct state wise filtered DF which will contain only pedestrians data for that specific state (using for-loop)
 2. Calculate the state wise total of pedestrians crossed the border
 3. Put the total of each state in a list
+4. Plot the bar chart by calling the function plotBarChart()
 ==============================================================================================================
 '''
 listOfTotalPedestriansByState = []
@@ -111,30 +151,14 @@ for i in stateList:
     # Put the total in a a list
     listOfTotalPedestriansByState.append(totalPedestrianCrossed)
 
-print("\nList of the State wise pedestrians = ", listOfTotalPedestriansByState, "\n")
-'''
-==============================================================================================================
-Plot a bar chart showing pedestrians of each state using matplotlib of pyplot
-==============================================================================================================
-'''
-# Configuration of the plot parameters
-plt.figure(figsize=(12, 6))
-plt.title("State wise pedestrian crossed since 1996")
-plt.xlabel("States")
-plt.ylabel("Number of Pedestrians")
-plt.xticks(rotation=0)
-plt.grid(False)
-plt.bar(stateList, listOfTotalPedestriansByState,  color="salmon")
-
-# This is the location for the annotated text
-i = 1.0
-j = 1000
-for i in range(len(stateList)):
-    plt.annotate(listOfTotalPedestriansByState[i], (-0.25 + i, listOfTotalPedestriansByState[i] + j))
-
-# Plotting
-plt.show()
-
+barTitle="State wise pedestrian crossed since 1996"
+barXLabel="States"
+barYLabel="Number of Pedestrians"
+barXRotation=0
+listOfXData=stateList
+listOfYData=listOfTotalPedestriansByState
+barColour="salmon"
+plotBarChart(barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour)
 '''
 ==============================================================================================================
 Find out year wise total number of Pedestrians crossed US-Canada border since 1996
@@ -142,6 +166,7 @@ Syntax:
 1. Construct year wise filtered DF which will contain only pedestrians data for that specific year (using for-loop)
 2. Calculate the year wise total of pedestrians crossed the border
 3. Put the total of each year in a list
+4. Plot the bar chart by calling the function plotBarChart()
 ==============================================================================================================
 '''
 listOfTotalPedestriansByYear = []
@@ -157,50 +182,14 @@ for i in range(1996,2021,1):
     listOfTotalPedestriansByYear.append(yearwiseTotalPedestrianCrossed)
     listOfYear.append(i)
 
-print("\nList of the State wise pedestrians = ", listOfTotalPedestriansByYear, "\n")
-
-'''
-==============================================================================================================
-Plot a bar chart showing pedestrians of each year using matplotlib of pyplot
-==============================================================================================================
-'''
-# Configuration of the plot parameters
-plt.figure(figsize=(12, 6))
-plt.title("Year wise pedestrian crossed since 1996")
-plt.xlabel("Year")
-plt.ylabel("Number of Pedestrians")
-plt.xticks(rotation=0)
-plt.grid(False)
-plt.bar(listOfYear, listOfTotalPedestriansByYear, color="orange")
-
-# This is the location for the annotated text
-i = 1.0
-j = 1000
-for i in range(len(listOfYear)):
-    plt.annotate(listOfTotalPedestriansByYear[i], (-0.25 + i, listOfTotalPedestriansByYear[i] + j))
-
-# Plotting
-plt.show()
-
-'''
-==============================================================================================================
-Function implementation: findPresidencyWiseTotal()
-What it does:
-1. Take the DF 'pedestrianDF' of the pedestrians crossed US-Canada border as the master data
-2. Now filter out the data for the range of start and end year of each presidency term
-3. Calculate the total pedestrians crossed during that presidency term
-4. Save data for each presidency term in .CSV format
-==============================================================================================================
-'''
-def findPresidencyWiseTotal(presTerm, presStartYr, presEndYear):
-    presidencyWisePedestrianDF = pedestrianDF[pedestrianDF.Date.dt.year.isin(range(presStartYr, presEndYear))]
-    presidencyWiseTotalPedestrianCrossed = presidencyWisePedestrianDF['Value'].sum()
-    presidencyWisePedestrianDF.to_csv("~/Desktop/Learning/Learning Together/BorderData/PresidencyWiseData/presidencyWisePedestrian{}.csv".format(presTerm), index=True)
-    print("Total pedestrians for the presidency {}".format(presTerm), presidencyWiseTotalPedestrianCrossed)
-
-    # Put the total in a list
-    listOfTotalPedestriansByPresidency.append(presidencyWiseTotalPedestrianCrossed)
-
+barTitle="Year wise pedestrian crossed since 1996"
+barXLabel="Year"
+barYLabel="Number of Pedestrians"
+barXRotation=0
+listOfXData=listOfYear
+listOfYData=listOfTotalPedestriansByYear
+barColour="orange"
+plotBarChart(barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour)
 '''
 ==============================================================================================================
 Find out total pedestrians crossed during different presidency
@@ -209,7 +198,7 @@ Syntax:
 2. Create a list of start year of each presidency
 3. Create a list of end year of each presidency
 4. Call a function in a loop by passing the name of the presidency terms, start year and end year
-5. Print the list of total pedestrians crossed in each presidency
+5. Plot the bar chart by calling the function plotBarChart()
 ==============================================================================================================
 '''
 listOfTotalPedestriansByPresidency = []
@@ -223,27 +212,11 @@ for i in range(6):
 
     findPresidencyWiseTotal(presTerm, presStartYr, presEndYear)
 
-print("\nList of the Presidency wise pedestrians = ", listOfTotalPedestriansByPresidency, "\n")
-
-'''
-==============================================================================================================
-Plot a bar chart showing pedestrians of each presidency term using matplotlib of pyplot
-==============================================================================================================
-'''
-# Configuration of the plot parameters
-plt.figure(figsize=(12, 6))
-plt.title("Presidency wise pedestrian crossed since 1996")
-plt.xlabel("US Presidency Term")
-plt.ylabel("Number of Pedestrians")
-plt.xticks(rotation=10)
-plt.grid(False)
-plt.bar(presidencyTermList, listOfTotalPedestriansByPresidency, color="lightgreen")
-
-# This is the location for the annotated text
-i = 1.0
-j = 1000
-for i in range(len(presidencyTermList)):
-    plt.annotate(listOfTotalPedestriansByPresidency[i], (-0.25 + i, listOfTotalPedestriansByPresidency[i] + j))
-
-# Plotting
-plt.show()
+barTitle="Presidency wise pedestrian crossed since 1996"
+barXLabel="US Presidency Term"
+barYLabel="Number of Pedestrians"
+barXRotation=10
+listOfXData=presidencyTermList
+listOfYData=listOfTotalPedestriansByPresidency
+barColour="lightgreen"
+plotBarChart(barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour)
