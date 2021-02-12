@@ -50,5 +50,5 @@ print("The sorted list y: ",y)
 
 #Print the full list y using "for..in" loop
 for item in y:
- print(item, end=' ')
-
+ print(item, end='')
+print('\n')
