@@ -6,7 +6,7 @@ d = {key1 : value1, key2 : value2 }
 '''
 
 #Ddeclaration of a dictionary
-d1: dict = {"Rafi":"rafi@me.com", "Wahid":'wahid@ieee.com', "Jamil":'jamil@innovapost.com', "Cyrus":'cyrus@lenova.ca', "Mango":45.50, "Orange":70.35}
+d1: dict = {"Rafi":"rafi@me.com", "Wahid":'wahid@ieee.com', "Jamil":'jamil@innovapost.com', "Cyrus":'cyrus@lenova.ca', "Mango":45.50, "Orange":70.35, "banana":15.90}
 print(d1)
 
 #Print the dictionary in "(Key:value)" format using item() method
