@@ -207,7 +207,7 @@ vaccineDF.loc[vaccineDF.Country == 'United States', 'Country'] = 'USA'
 vaccineDF.loc[vaccineDF.Country == 'United Arab Emirates', 'Country'] = 'UAE'
 vaccineDF.loc[vaccineDF.Country == 'United Kingdom', 'Country'] = 'UK'
 #<--convert all values to type int-->
-vaccineDF = vaccineDF.astype({'Vaccinated': 'int', '% of population': 'float'})
+vaccineDF = vaccineDF.astype({'Vaccinated': 'int'})
 #<--reset the index-->
 vaccineDF = vaccineDF.reset_index(drop=True)
 
@@ -274,7 +274,7 @@ Prepare the parmaters and pass them to plotPieChart() method
 '''
 k=0
 for i in countryList:
- populationToBeVaccinated = (populationList[k] - vaccinatonList[k])
+ populationToBeVaccinated = populationList[k] - vaccinatonList[k]
  print("{} population = {}".format(i, populationList[k]))
  print("{} Total cases = {}".format(i, TotalCaseList[k]))
  print("{} Total recovered = {}".format(i, TotalRecoveredList[k]))
