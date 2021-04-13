@@ -28,7 +28,7 @@ What it does:
 2. Plot side by side pie chart
 ==============================================================================================================
 '''
-def plotPieChart(countryName, TotalPopulation, TotalActiveCases, TotalRecovered, TotalDeaths, TotalVaccinated):
+def plotPieChart(countryName, TotalPopulation, TotalActiveCases, TotalRecovered, TotalDeaths, TotalVaccinated, populationToBeVaccinated):
 
     # Pie chart plotting
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
@@ -39,7 +39,8 @@ def plotPieChart(countryName, TotalPopulation, TotalActiveCases, TotalRecovered,
     colours1 = ['greenyellow', 'orange', 'silver']
 
     explode2 = (0.04, 0.1)
-    sizes2 = [TotalPopulation, TotalVaccinated]
+    # TotalRemaining = (TotalPopulation - TotalVaccinated)
+    sizes2 = [populationToBeVaccinated, TotalVaccinated]
     labels2 = 'Population \nRemaining', 'Population \nVaccinated'
     colours2 = ['pink', 'greenyellow']
 
@@ -273,12 +274,14 @@ Prepare the parmaters and pass them to plotPieChart() method
 '''
 k=0
 for i in countryList:
+ populationToBeVaccinated = (populationList[k] - vaccinatonList[k])
  print("{} population = {}".format(i, populationList[k]))
  print("{} Total cases = {}".format(i, TotalCaseList[k]))
  print("{} Total recovered = {}".format(i, TotalRecoveredList[k]))
  print("{} Total deaths = {}".format(i, TotalDeathList[k]))
  print("{} Active cases = {}".format(i, TotalActiveCaseList[k]))
  print("{} Total vaccinated = {}\n".format(i, vaccinatonList[k]))
+ print("{} Remaining population to be vaccinated = {}\n".format(i, populationToBeVaccinated))
 
- plotPieChart(i, populationList[k], TotalActiveCaseList[k], TotalRecoveredList[k], TotalDeathList[k], vaccinatonList[k])
+ plotPieChart(i, populationList[k], TotalActiveCaseList[k], TotalRecoveredList[k], TotalDeathList[k], vaccinatonList[k], populationToBeVaccinated)
  k=k+1
