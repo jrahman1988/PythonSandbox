@@ -12,12 +12,17 @@ myLambdaFunction = lambda argument: argument.count("bike")
 #here we are calling the lambda function: passing the 'sentence' as parameter and lamda function is taking it as an 'argument'
 print("Total number of 'bike' word appeared = ", myLambdaFunction(sentence))
 
-logFile = "/mnt/sda/Spark/spark-3.0.1-bin-hadoop3.2/README.md"
+# filePath = "~/Desktop/Learning/Sandbox/PythonSandbox/Data/README.md"
+# readFile=open('~/Desktop/Learning/Sandbox/PythonSandbox/Data/README.md', 'r')
+with open('/home/jamil/Desktop/Learning/Sandbox/PythonSandbox/Data/README.md') as f:
+    readFile = f.readlines()
 
-pythonAppeared = lambda s: s.count("Saprk")
+print (readFile)
+print(readFile.count("Spark"))
+sparkAppeared = lambda s: s.count("Spark")
+apacheAppeared = lambda s: s.count("Apache")
 hadoopAppeared = lambda s: s.count("Hadoop")
-berkeleyAppeared = lambda s: s.count("Berkeley")
 
-print("Python word appeared = ", pythonAppeared(logFile))
-print("Hadoop word appeared = ", hadoopAppeared(logFile))
-print("Berkeley word appeared = ", berkeleyAppeared(logFile))
+print("Spark word appeared = ", sparkAppeared(readFile))
+print("Apache word appeared = ", apacheAppeared(readFile))
+print("Hadoop word appeared = ", hadoopAppeared(readFile))

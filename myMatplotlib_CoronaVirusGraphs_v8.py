@@ -89,6 +89,11 @@ totalRecovered = s['Total recovered']
 totalActiveCases = s['Active cases']
 grossTotalDeaths = int(s['Gross Total deaths'])
 
+print('Gross Total cases = ', grossTotalCase)
+print('Total recovered = ', totalRecovered)
+print('Total active cases = ', totalActiveCases)
+print('Total Deaths = ', grossTotalDeaths, "\n")
+
 # Pie chart plotting
 labels = 'Total Recovered', 'Active Cases', 'Gross Total Deaths'
 sizes = [totalRecovered, totalActiveCases, grossTotalDeaths]
