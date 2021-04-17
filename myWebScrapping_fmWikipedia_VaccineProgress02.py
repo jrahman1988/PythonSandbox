@@ -13,13 +13,33 @@ from bs4 import BeautifulSoup
 from matplotlib import pyplot as plt
 
 #List of the countries data to be processed
-countryList:list = ["Bangladesh", "India", "Canada", "China", "USA", "Australia", "UK", "Israel", "Japan", "UAE"]
+countryList:list = ["Bangladesh", "India", "Pakistan", "Nepal", "Bhutan", "Sri Lanka", "Maldives", "Japan"]
+# countryList:list = ["USA", "Canada", "UK", "France", "Germany", "Italy", "Japan"]
 
 #Format the date time to present on the graph
 dt = datetime.datetime.now()
 today = dt.strftime("%A, %d %B %Y, %H:%M:%S")
 todayDate = dt.strftime("%A, %d %B %Y")
 
+'''
+==============================================================================================================
+Function implemenattion: plothHorizontalBarChart()
+What it does:
+1. Takes parameters of barTitle, barXLabel, barYLabel, barXRotation, listOfXData, listOfYData, barColour
+2. Plot side by side horizontal bar chart
+==============================================================================================================
+'''
+def plotHorizontalBarChart(countryList, vaccinatonList, remainingPoulationList, TotalCaseList, TotalRecoveredList, TotalDeathList):
+
+    plt.barh(countryList, vaccinatonList, color="#f3e151")
+    # careful: notice "bottom" parameter became "left"
+    plt.barh(countryList, remainingPoulationList, left=vaccinatonList, color="#6c3376")
+
+    # we also need to switch the labels
+    plt.xlabel('Population')
+    plt.ylabel('Countries')
+
+    plt.show()
 '''
 ==============================================================================================================
 Function implemenattion: plotPieChart()
@@ -59,6 +79,9 @@ def plotPieChart(countryName, TotalPopulation, TotalActiveCases, TotalRecovered,
 
     saveDir = "/home/jamil/Desktop/Learning/Sandbox/PythonSandbox/vaccinationProgress/"
     plt.savefig('{}{}.png'.format(saveDir, countryName))
+
+    print("{} Remaining to be vaccinated {}".format(countryName, populationToBeVaccinated))
+    print("{} Total vaccinated {}\n".format(countryName, TotalVaccinated))
     plt.show()
 '''
 ==============================================================================================================
@@ -232,7 +255,9 @@ TotalCaseList:list = []
 TotalRecoveredList:list = []
 TotalDeathList:list = []
 TotalActiveCaseList:list = []
+remainingPoulationList:list = []
 
+j=0
 for i in countryList:
     populationList.append(populationDF.loc[populationDF.Country == i, 'Population'].tolist()[0])
     vaccinatonList.append(vaccineDF.loc[vaccineDF.Country == i, 'Vaccinated'].tolist()[0])
@@ -240,6 +265,8 @@ for i in countryList:
     TotalRecoveredList.append(coronaDF.loc[coronaDF.Country == i, 'TotalRecovered'].tolist()[0])
     TotalDeathList.append(coronaDF.loc[coronaDF.Country == i, 'TotalDeaths'].tolist()[0])
     TotalActiveCaseList.append(coronaDF.loc[coronaDF.Country == i, 'ActiveCases'].tolist()[0])
+    remainingPoulationList.append(populationList[j] - vaccinatonList[j])
+    j=j+1
 
 #<--add new columns 'Population', 'Vaccinated', 'TotalCases', 'TotalDeaths' in the 'countryDF' and fill in with the data of list above lists
 # countryDF['Population'] = populationList
@@ -248,7 +275,6 @@ for i in countryList:
 # countryDF['TotalRecovered'] = TotalRecoveredList
 # countryDF['TotalDeaths'] = TotalDeathList
 # print('\n New DF countryDF: \n' , countryDF)
-
 '''
 ==============================================================================================================
 Prepare the parmaters and pass them to plotBarChart() method
@@ -272,14 +298,18 @@ Prepare the parmaters and pass them to plotPieChart() method
 '''
 k=0
 for i in countryList:
- populationToBeVaccinated = populationList[k] - vaccinatonList[k]
+ populationToBeVaccinated = (int)(populationList[k]) - (int)(vaccinatonList[k])
  print("{} population = {}".format(i, populationList[k]))
  print("{} Total cases = {}".format(i, TotalCaseList[k]))
  print("{} Total recovered = {}".format(i, TotalRecoveredList[k]))
  print("{} Total deaths = {}".format(i, TotalDeathList[k]))
  print("{} Active cases = {}".format(i, TotalActiveCaseList[k]))
- print("{} Total vaccinated = {}\n".format(i, vaccinatonList[k]))
+ print("{} Total vaccinated = {}".format(i, vaccinatonList[k]))
+ print('populationList = {}'.format(populationList))
+ print('Remaining population List  = {}'.format(remainingPoulationList))
  print("{} Remaining population to be vaccinated = {}\n".format(i, populationToBeVaccinated))
 
  plotPieChart(i, populationList[k], TotalActiveCaseList[k], TotalRecoveredList[k], TotalDeathList[k], vaccinatonList[k], populationToBeVaccinated)
  k=k+1
+
+plotHorizontalBarChart(countryList, vaccinatonList, remainingPoulationList, TotalCaseList, TotalRecoveredList, TotalDeathList)
