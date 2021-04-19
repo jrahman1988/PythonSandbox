@@ -31,7 +31,7 @@ fileNameDate = dt.strftime("%b%d%Y")
 #Web scrape the data for selected countries startDate = 2020-04-01 and endDate=today and save to country specific .csv files
 k=0
 for i in cc:
-    url="http://api.coronatracker.com/v3/analytics/trend/country?countryCode={}&startDate={}&endDate={}".format(i, startDate, endDate)
+    url="http://api.coronatracker.com/v5/analytics/trend/country?countryCode={}&startDate={}&endDate={}".format(i, startDate, endDate)
     r = requests.get(url)
     df = pd.DataFrame.from_dict(r.json())
     df["last_updated"] = pd.to_datetime(df.last_updated).dt.date
